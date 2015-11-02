@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,10 +14,19 @@ public class Etape {
 
     /*--- Constructor ---*/
 
-    public Etape(Date heurePassage, double duree, List<Troncon> troncons) {
-        this.heurePassage = heurePassage;
-        this.duree = duree;
-        this.troncons = troncons;
+    public Etape(List<Troncon> troncons) {
+        
+    	this.duree = 0;
+        for(Troncon t : troncons)
+        {
+        	this.addTroncon(t);
+        }
+    }
+    
+    public Etape() {
+    	this.heurePassage = new Date();
+    	this.duree = 0;
+    	this.troncons = new ArrayList<Troncon>();
     }
 
     /*--- Accessors ---*/
@@ -47,6 +57,7 @@ public class Etape {
 	public void addTroncon(Troncon t)
 	{
 		troncons.add(t);
+		this.setDuree(this.getDuree() + t.getDuree());
 	}
 	public void removeTroncon(Troncon t) {
 		troncons.remove(t);

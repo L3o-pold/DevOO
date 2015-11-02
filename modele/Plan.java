@@ -10,6 +10,7 @@ public class Plan {
 
 	private int hauteur;
 	private int largeur;
+	private Intersection entrepot;
 	private List<Intersection> intersections;
 
 
@@ -45,6 +46,13 @@ public class Plan {
 		this.intersections = intersections;
 	}
 	
+	public Intersection getEntrepot() {
+		return entrepot;
+	}
+	public void setEntrepot(Intersection entrepot) {
+		this.entrepot = entrepot;
+	}
+	
 	public void addIntersection(Intersection i)
 	{
 		this.intersections.add(i);
@@ -70,6 +78,15 @@ public class Plan {
 			}
 		}
 		return null;
+	}
+	
+	public List<Troncon> plusCourtChemin(Intersection i1,Intersection i2)
+	{
+		List<Troncon> result = new ArrayList<Troncon>();
+		
+		
+		
+		return result;
 	}
 	
 }
