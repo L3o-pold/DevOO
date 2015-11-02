@@ -55,9 +55,26 @@ public class Etape {
 	public void setTroncons(List<Troncon> troncons) {
 		this.troncons = troncons;
 	}
-
-    /*--- Public methods ---*/
 	
+	
+	public int getIdDepart() {
+		return idDepart;
+	}
+
+	public void setIdDepart(int idDepart) {
+		this.idDepart = idDepart;
+	}
+
+	public int getIdArrivee() {
+		return idArrivee;
+	}
+
+	public void setIdArrivee(int idArrivee) {
+		this.idArrivee = idArrivee;
+	}
+	
+	/*--- Public methods ---*/
+
 	public void addTroncon(Troncon t)
 	{
 		troncons.add(t);

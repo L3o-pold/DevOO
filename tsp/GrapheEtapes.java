@@ -15,7 +15,7 @@ public class GrapheEtapes implements Graphe{
 	}
 	
 	public void ajouterEtape(Etape e) {
-		//cout[][] = e.getDuree();
+		cout[e.getIdDepart()][e.getIdArrivee()] = (int) e.getDuree();
 	}
 	
 	@Override

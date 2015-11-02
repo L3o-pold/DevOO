@@ -19,6 +19,12 @@ public class FenetreLivraison {
         this.heureFin = heureFin;
         livraisons = new ArrayList<Livraison>();
     }
+    
+    public FenetreLivraison() {
+        this.heureDebut = new Date();
+        this.heureFin = new Date();
+        livraisons = new ArrayList<Livraison>();
+    }
 
     /*--- Accessors ---*/
 	

@@ -9,7 +9,8 @@ public class Livraison {
 	
 	/*--- Constructor ---*/
 
-    public Livraison(Intersection intersectionLivraison) {
+    public Livraison(int o, Intersection intersectionLivraison) {
+    	this.ordre = o;
         this.intersectionLivraison = intersectionLivraison;
     }
 
