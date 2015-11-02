@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class FenetreLivraison {
     public FenetreLivraison(Date heureDebut, Date heureFin) {
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
+        livraisons = new ArrayList<Livraison>();
     }
 
     /*--- Accessors ---*/
