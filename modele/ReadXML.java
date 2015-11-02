@@ -1,6 +1,8 @@
 package modele;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,15 +22,13 @@ public class ReadXML {
 	}
 	
 	//readPlan
-	public void readPlan(String url){
-		
+	public Plan chargerPlan(String url){
+		Plan plan = new Plan();
 		try{
 			File fXmlFile = new File(url);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
-			
-			Plan plan = new Plan();
 					
 			doc.getDocumentElement().normalize();
 			NodeList nList = doc.getElementsByTagName("Noeud");
@@ -41,6 +41,7 @@ public class ReadXML {
 					int id = Integer.parseInt(e.getAttribute("id"));
 					int x = Integer.parseInt(e.getAttribute("x"));
 					int y = Integer.parseInt(e.getAttribute("y"));
+					
 					Intersection is = plan.getIntersectionById(id);
 					
 					if(is==null){
@@ -50,16 +51,41 @@ public class ReadXML {
 						is.setY(y);
 					}
 					
-					NodeList nList = doc.getElementsByTagName("Noeud");
+					plan.addIntersection(is);
 					
+					NodeList tList = doc.getElementsByTagName("LeTronconSortant");
 					
-	
-					
+					for (int j = 0; j < tList.getLength(); j++){
+						Node tNode = tList.item(i);
+						if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+							Element t = (Element) tNode;
+							
+							double longueur = Integer.parseInt(t.getAttribute("longueur"));
+							double vitesse = Integer.parseInt(t.getAttribute("vitesse"));
+							double duree = longueur/vitesse;
+							int iddest = Integer.parseInt(t.getAttribute("idNoeudDestination"));
+							
+							Intersection isdest = plan.getIntersectionById(iddest);
+							
+							if(isdest==null){
+								isdest = new Intersection(iddest,Integer.MIN_VALUE,Integer.MIN_VALUE);
+							}
+							Troncon tc = new Troncon(duree,is,isdest);
+							is.ajouterTroncon(tc);
+						}
+					}
 				}
 			}
+			//validate
+			//TODO
+
 		}catch(Exception e) {
 			e.printStackTrace();
 	    }
+		return plan;
 	}
-	
+	public Entry<Intersection, ArrayList<FenetreLivraison>> chargerLivraison(String url){
+		Entry<Intersection, ArrayList<FenetreLivraison>> entry = new Entry<Intersection, ArrayList<FenetreLivraison>>(null,null);
+		return list;
+	}
 }
