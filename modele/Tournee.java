@@ -49,13 +49,13 @@ public class Tournee {
     	for(Livraison l : livraisons1)
     	{
     		List<Troncon> listT1 = p.plusCourtChemin(entrepot, l.getIntersectionLivraison());
-    		Etape etape1 = new Etape(listT1);
+    		//Etape etape1 = new Etape(listT1);
     		for(Livraison l2 : livraisons1)
     		{
     			if(l != l2)
     			{
     				List<Troncon> listT2 = p.plusCourtChemin(l.getIntersectionLivraison(), l2.getIntersectionLivraison());
-    				Etape etape2 = new Etape(listT2);
+    				//Etape etape2 = new Etape(listT2);
     			}
     		}
     	}
