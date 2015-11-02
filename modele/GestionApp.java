@@ -130,17 +130,17 @@ public class GestionApp {
         ga.getPlan().setEntrepot(i0);
     	
     	//livraisons
-    	Livraison l1 = new Livraison(ga.getPlan().getIntersectionById(1));
-    	Livraison l2 = new Livraison(ga.getPlan().getIntersectionById(2));
-    	Livraison l3 = new Livraison(ga.getPlan().getIntersectionById(3));
+    	Livraison l1 = new Livraison(1, ga.getPlan().getIntersectionById(1));
+    	Livraison l2 = new Livraison(2, ga.getPlan().getIntersectionById(2));
+    	Livraison l3 = new Livraison(3, ga.getPlan().getIntersectionById(3));
     	
-    	Livraison l4 = new Livraison(ga.getPlan().getIntersectionById(4));
-    	Livraison l5 = new Livraison(ga.getPlan().getIntersectionById(5));
-    	Livraison l6 = new Livraison(ga.getPlan().getIntersectionById(5));
+    	Livraison l4 = new Livraison(4, ga.getPlan().getIntersectionById(4));
+    	Livraison l5 = new Livraison(5, ga.getPlan().getIntersectionById(5));
+    	Livraison l6 = new Livraison(6, ga.getPlan().getIntersectionById(5));
     	
-    	Livraison l7 = new Livraison(ga.getPlan().getIntersectionById(6));
-    	Livraison l8 = new Livraison(ga.getPlan().getIntersectionById(8));
-    	Livraison l9 = new Livraison(ga.getPlan().getIntersectionById(7));
+    	Livraison l7 = new Livraison(7, ga.getPlan().getIntersectionById(6));
+    	Livraison l8 = new Livraison(8, ga.getPlan().getIntersectionById(8));
+    	Livraison l9 = new Livraison(9, ga.getPlan().getIntersectionById(7));
     	
     	
     	//Fenetres
