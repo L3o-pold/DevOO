@@ -27,17 +27,32 @@ public class ReadXML {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
+			
+			Plan plan = new Plan();
 					
 			doc.getDocumentElement().normalize();
 			NodeList nList = doc.getElementsByTagName("Noeud");
 		
 			for (int i = 0; i < nList.getLength(); i++) {
-	
 				Node nNode = nList.item(i);
-						
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	
 					Element e = (Element) nNode;
+					
+					int id = Integer.parseInt(e.getAttribute("id"));
+					int x = Integer.parseInt(e.getAttribute("x"));
+					int y = Integer.parseInt(e.getAttribute("y"));
+					Intersection is = plan.getIntersectionById(id);
+					
+					if(is==null){
+						is = new Intersection(id,x,y);
+					}else{
+						is.setX(x);
+						is.setY(y);
+					}
+					
+					NodeList nList = doc.getElementsByTagName("Noeud");
+					
+					
 	
 					
 				}
