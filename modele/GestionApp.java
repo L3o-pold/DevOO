@@ -126,6 +126,8 @@ public class GestionApp {
         ga.getPlan().addIntersection(i8);
         ga.getPlan().addIntersection(i9);
         ga.getPlan().addIntersection(i10);
+        
+        ga.getPlan().setEntrepot(i0);
     	
     	//livraisons
     	Livraison l1 = new Livraison(ga.getPlan().getIntersectionById(1));
@@ -159,7 +161,7 @@ public class GestionApp {
     	fl3.addLivraison(l7); fl3.addLivraison(l8); fl3.addLivraison(l9);
     	
     	ga.getPlan().addIntersection(i1);
-    	System.out.println(ga.getPlan().getHauteur());
+    	//System.out.println(ga.getPlan().getHauteur());
     	
     }
     
