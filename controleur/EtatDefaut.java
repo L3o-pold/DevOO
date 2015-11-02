@@ -8,4 +8,15 @@ public class EtatDefaut implements Etat {
 
     }
 
+    /*--- Override methods ---*/
+
+    @Override
+    public void undo(ListeDeCommandes listeDeCommandes) {
+        listeDeCommandes.undo();
+    }
+
+    @Override
+    public void redo(ListeDeCommandes listeDeCommandes) {
+        listeDeCommandes.redo();
+    }
 }
