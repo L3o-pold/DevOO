@@ -7,15 +7,17 @@ import java.util.List;
 public class Etape {
 
     /*--- Attributes ---*/
-
+	private int idDepart;
+	private int idArrivee;
 	private Date heurePassage;
 	private double duree;
 	private List<Troncon> troncons;
 
     /*--- Constructor ---*/
 
-    public Etape(List<Troncon> troncons) {
-        
+    public Etape(int idDep, int idArr, List<Troncon> troncons) {
+        this.idDepart = idDep;
+        this.idArrivee = idArr;
     	this.duree = 0;
         for(Troncon t : troncons)
         {
@@ -31,9 +33,11 @@ public class Etape {
 
     /*--- Accessors ---*/
 	
+    
 	public Date getHeurePassage() {
 		return heurePassage;
 	}
+
 	public void setHeurePassage(Date heurePassage) {
 		this.heurePassage = heurePassage;
 	}
