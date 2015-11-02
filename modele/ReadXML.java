@@ -2,6 +2,7 @@ package modele;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -57,7 +58,7 @@ public class ReadXML {
 					
 					for (int j = 0; j < tList.getLength(); j++){
 						Node tNode = tList.item(i);
-						if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+						if (tNode.getNodeType() == Node.ELEMENT_NODE) {
 							Element t = (Element) tNode;
 							
 							double longueur = Integer.parseInt(t.getAttribute("longueur"));
@@ -84,8 +85,39 @@ public class ReadXML {
 	    }
 		return plan;
 	}
-	public Entry<Intersection, ArrayList<FenetreLivraison>> chargerLivraison(String url){
-		Entry<Intersection, ArrayList<FenetreLivraison>> entry = new Entry<Intersection, ArrayList<FenetreLivraison>>(null,null);
-		return list;
+	@SuppressWarnings("deprecation")
+	public Pair<Intersection, ArrayList<FenetreLivraison>> chargerLivraison(String url,Plan plan){
+		Pair pair = new Pair(null,null);
+		
+		try{
+			File fXmlFile = new File(url);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(fXmlFile);
+					
+			doc.getDocumentElement().normalize();
+			Element eEntrepot = doc.getElementById("Entrepot");
+			int identrepot = Integer.getInteger(eEntrepot.getAttribute("adresse"));
+			Intersection entrepot = plan.getIntersectionById(identrepot);
+			pair.setFirst(entrepot);
+			
+			NodeList fList = doc.getElementsByTagName("Plage");
+			for (int i = 0; i < fList.getLength(); i++){
+				Node fNode = fList.item(i);
+				if (fNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element f = (Element) fNode;
+					
+					String[] sHeureDebut = f.getAttribute("heureDebut").split(":");
+					String[] sHeureFin = f.getAttribute("heureFin").split(":");
+					
+					Date dHeureDebut = new Date(0);
+					dHeureDebut.setHours(Integer.parseInt(sHeureDebut[0]));
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+	    }
+		
+		return pair;
 	}
 }
