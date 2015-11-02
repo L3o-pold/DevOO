@@ -10,7 +10,6 @@ public class Intersection {
 	private int x;
 	private int y;
 	private List<Troncon> tronconsSortants;
-	private List<Troncon> tronconsEntrants;
 
     /*--- Constructor ---*/
 
@@ -41,5 +40,10 @@ public class Intersection {
 	}
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public void ajouterTroncon(Troncon troncon)
+	{
+		tronconsSortants.add(troncon);
 	}
 }
