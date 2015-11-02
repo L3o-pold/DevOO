@@ -15,12 +15,10 @@ public class Plan {
 
     /*--- Constructor ---*/
 
-	public Plan(int hauteur, int largeur) {
-		this.hauteur = hauteur;
-		this.largeur = largeur;
-        // Maybe another type of list
-		this.intersections = new ArrayList<>();
-		this.troncons = new ArrayList<>();
+	public Plan() {
+		this.hauteur = 0;
+		this.largeur = 0;
+		this.intersections = new ArrayList<Intersection>(); // Maybe another type of list
 	}
 
     /*--- Accessors ---*/
