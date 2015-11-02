@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Plan {
@@ -21,6 +22,7 @@ public class Plan {
 	}
 
     /*--- Accessors ---*/
+	
 
 	public int getHauteur() {
 		return hauteur;
@@ -56,5 +58,18 @@ public class Plan {
 		}
 	}
 	
+	public Intersection getIntersectionById(int id)
+	{
+		Iterator<Intersection> it = intersections.iterator();
+		while(it.hasNext())
+		{
+			Intersection result = (Intersection) it.next();
+			if(result.getId()==id)
+			{
+				return result;
+			}
+		}
+		return null;
+	}
 	
 }
