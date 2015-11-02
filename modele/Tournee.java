@@ -23,6 +23,11 @@ public class Tournee {
         this.etapes = etapes;
         this.fenetres = fenetres;
     }
+    
+    public Tournee() {
+    	this.etapes = new ArrayList<Etape>();
+    	this.fenetres = new ArrayList<FenetreLivraison>();
+    }
 
     /*--- Accessors ---*/
 
