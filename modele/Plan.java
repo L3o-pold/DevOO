@@ -14,9 +14,9 @@ public class Plan {
 
     /*--- Constructor ---*/
 
-	public Plan(int hauteur, int largeur) {
-		this.hauteur = hauteur;
-		this.largeur = largeur;
+	public Plan() {
+		this.hauteur = 0;
+		this.largeur = 0;
 		this.intersections = new ArrayList<Intersection>(); // Maybe another type of list
 	}
 
@@ -42,4 +42,19 @@ public class Plan {
 	public void setIntersections(List<Intersection> intersections) {
 		this.intersections = intersections;
 	}
+	
+	public void addIntersection(Intersection i)
+	{
+		this.intersections.add(i);
+		if( i.getX() > this.getLargeur() )
+		{
+			this.setLargeur(i.getX());
+		}
+		if( i.getY() > this.getHauteur())
+		{
+			this.setHauteur(i.getY());
+		}
+	}
+	
+	
 }
