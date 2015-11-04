@@ -61,8 +61,12 @@ public class ReadXML {
 						if (tNode.getNodeType() == Node.ELEMENT_NODE) {
 							Element t = (Element) tNode;
 							
-							double longueur = Integer.parseInt(t.getAttribute("longueur"));
-							double vitesse = Integer.parseInt(t.getAttribute("vitesse"));
+							String[] sLongueurs = t.getAttribute("longueur").split(",");
+							String sLongueur = sLongueurs[0]+"."+sLongueurs[1];
+							double longueur = Double.parseDouble(sLongueur);
+							String[] sVitesses = t.getAttribute("vitesse").split(",");
+							String sVitesse = sVitesses[0]+"."+sVitesses[1];
+							double vitesse = Double.parseDouble(sVitesse);
 							double duree = longueur/vitesse;
 							int iddest = Integer.parseInt(t.getAttribute("idNoeudDestination"));
 							
@@ -99,7 +103,7 @@ public class ReadXML {
 			
 			//chargerEntrepot
 			Element eEntrepot = doc.getElementById("Entrepot");
-			int identrepot = Integer.getInteger(eEntrepot.getAttribute("adresse"));
+			int identrepot = Integer.parseInt(eEntrepot.getAttribute("adresse"));
 			Intersection entrepot = plan.getIntersectionById(identrepot);
 			pair.setFirst(entrepot);
 			
