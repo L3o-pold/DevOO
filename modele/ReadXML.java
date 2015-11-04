@@ -1,9 +1,9 @@
 package modele;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -54,7 +54,7 @@ public class ReadXML {
 					
 					plan.addIntersection(is);
 					
-					NodeList tList = doc.getElementsByTagName("LeTronconSortant");
+					NodeList tList = e.getElementsByTagName("LeTronconSortant");
 					
 					for (int j = 0; j < tList.getLength(); j++){
 						Node tNode = tList.item(i);
@@ -85,9 +85,9 @@ public class ReadXML {
 	    }
 		return plan;
 	}
-	@SuppressWarnings("deprecation")
+	
 	public Pair<Intersection, ArrayList<FenetreLivraison>> chargerLivraison(String url,Plan plan){
-		Pair pair = new Pair(null,null);
+		Pair<Intersection, ArrayList<FenetreLivraison>> pair = new Pair<Intersection, ArrayList<FenetreLivraison>>(null,null);
 		
 		try{
 			File fXmlFile = new File(url);
@@ -96,28 +96,56 @@ public class ReadXML {
 			Document doc = dBuilder.parse(fXmlFile);
 					
 			doc.getDocumentElement().normalize();
+			
+			//chargerEntrepot
 			Element eEntrepot = doc.getElementById("Entrepot");
 			int identrepot = Integer.getInteger(eEntrepot.getAttribute("adresse"));
 			Intersection entrepot = plan.getIntersectionById(identrepot);
 			pair.setFirst(entrepot);
 			
+			//chargerPlageHoraire
+			ArrayList<FenetreLivraison> alLiv = new ArrayList<FenetreLivraison>();
 			NodeList fList = doc.getElementsByTagName("Plage");
 			for (int i = 0; i < fList.getLength(); i++){
 				Node fNode = fList.item(i);
 				if (fNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element f = (Element) fNode;
 					
-					String[] sHeureDebut = f.getAttribute("heureDebut").split(":");
-					String[] sHeureFin = f.getAttribute("heureFin").split(":");
+					String sHeureDebut = f.getAttribute("heureDebut");
+					String sHeureFin = f.getAttribute("heureFin");
 					
-					Date dHeureDebut = new Date(0);
-					dHeureDebut.setHours(Integer.parseInt(sHeureDebut[0]));
+					Date dHeureDebut = new Date();
+					Date dHeureFin = new Date();
+					SimpleDateFormat ft = new SimpleDateFormat("hh:mm:ss");
+					
+					dHeureDebut = ft.parse(sHeureDebut) ;
+					dHeureFin = ft.parse(sHeureFin);
+					
+					FenetreLivraison fl = new FenetreLivraison(dHeureDebut,dHeureFin);
+					alLiv.add(fl);
+					
+					//chargerLivraison
+					NodeList lList = f.getElementsByTagName("Livraison");
+					for (int j = 0; j < fList.getLength(); j++){
+						Node lNode = lList.item(i);
+						if (lNode.getNodeType() == Node.ELEMENT_NODE) {
+							Element l = (Element) fNode;
+							
+							int idIsLiv = Integer.parseInt(l.getAttribute("id"));
+							Intersection isLiv = plan.getIntersectionById(idIsLiv);
+							
+							Livraison livraison = new Livraison(isLiv);
+							livraison.setOrdre(j);
+							
+							fl.addLivraison(livraison);
+						}
+					}
 				}
 			}
+			pair.setSecond(alLiv);
 		}catch(Exception e) {
 			e.printStackTrace();
 	    }
-		
 		return pair;
 	}
 }
