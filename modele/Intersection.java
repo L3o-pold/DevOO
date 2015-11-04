@@ -1,7 +1,5 @@
 package modele;
 
-import java.util.List;
-
 public class Intersection {
 
     /*--- Attributes ---*/
@@ -9,8 +7,6 @@ public class Intersection {
 	private int id;
 	private int x;
 	private int y;
-	private List<Troncon> tronconsSortants;
-	private List<Troncon> tronconsEntrants;
 
     /*--- Constructor ---*/
 

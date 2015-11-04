@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Tournee {
@@ -11,6 +13,12 @@ public class Tournee {
 
     /*--- Constructor ---*/
 
+    public Tournee() {
+        // Maybe another type of list
+        this.etapes = new ArrayList<>();
+        this.fenetres = new ArrayList<>();
+    }
+
     public Tournee(List<Etape> etapes, List<FenetreLivraison> fenetres) {
         this.etapes = etapes;
         this.fenetres = fenetres;
@@ -21,14 +29,17 @@ public class Tournee {
     public List<Etape> getEtapes() {
         return etapes;
     }
-    public void setEtapes(List<Etape> etapes) {
-        this.etapes = etapes;
-    }
-
     public List<FenetreLivraison> getFenetres() {
         return fenetres;
     }
-    public void setFenetres(List<FenetreLivraison> fenetres) {
-        this.fenetres = fenetres;
+
+    /*--- Public methods ---*/
+
+    public void addFenetreLivraison(Date heureDebut, Date heureFin) {
+        this.fenetres.add(new FenetreLivraison(heureDebut, heureFin));
+    }
+
+    public void addFenetreLivraison(FenetreLivraison fenetreLivraison) {
+        this.fenetres.add(fenetreLivraison);
     }
 }

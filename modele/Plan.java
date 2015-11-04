@@ -10,6 +10,7 @@ public class Plan {
 	private int hauteur;
 	private int largeur;
 	private List<Intersection> intersections;
+	private List<Troncon> troncons;
 
 
     /*--- Constructor ---*/
@@ -17,7 +18,9 @@ public class Plan {
 	public Plan(int hauteur, int largeur) {
 		this.hauteur = hauteur;
 		this.largeur = largeur;
-		this.intersections = new ArrayList<Intersection>(); // Maybe another type of list
+        // Maybe another type of list
+		this.intersections = new ArrayList<>();
+		this.troncons = new ArrayList<>();
 	}
 
     /*--- Accessors ---*/
@@ -36,10 +39,43 @@ public class Plan {
 		this.largeur = largeur;
 	}
 
-	public List<Intersection> getIntersections() {
+    public List<Intersection> getIntersections() {
         return intersections;
     }
-	public void setIntersections(List<Intersection> intersections) {
-		this.intersections = intersections;
-	}
+
+    public Intersection getIntersectionById(int id) {
+        for(Intersection intersection : this.intersections) {
+            if(intersection.getId() == id) {
+                return intersection;
+            }
+        }
+        return null;
+    }
+
+    public List<Troncon> getTroncons() {
+        return this.troncons;
+    }
+
+    /*--- Public methods ---*/
+
+    public void addIntersection(Intersection intersection) {
+        this.intersections.add(intersection);
+    }
+
+	public void addIntersection(int id, int x, int y) {
+        this.intersections.add(new Intersection(id, x, y));
+    }
+
+    public void addTroncon(double duree, int idDepart, int idArrive) {
+        Intersection depart = getIntersectionById(idDepart);
+        Intersection arrive = getIntersectionById(idArrive);
+
+        if(depart != null && arrive != null) {
+            this.troncons.add(new Troncon(duree, depart, arrive));
+        }
+    }
+
+    public void addTroncon(Troncon troncon) {
+        this.troncons.add(troncon);
+    }
 }
