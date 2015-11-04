@@ -57,7 +57,7 @@ public class ReadXML {
 					NodeList tList = e.getElementsByTagName("LeTronconSortant");
 					
 					for (int j = 0; j < tList.getLength(); j++){
-						Node tNode = tList.item(i);
+						Node tNode = tList.item(j);
 						if (tNode.getNodeType() == Node.ELEMENT_NODE) {
 							Element t = (Element) tNode;
 							
@@ -131,7 +131,7 @@ public class ReadXML {
 					//chargerLivraison
 					NodeList lList = f.getElementsByTagName("Livraison");
 					for (int j = 0; j < fList.getLength(); j++){
-						Node lNode = lList.item(i);
+						Node lNode = lList.item(j);
 						if (lNode.getNodeType() == Node.ELEMENT_NODE) {
 							Element l = (Element) fNode;
 							
