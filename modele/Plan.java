@@ -1,6 +1,8 @@
 package modele;
 
 import org.xml.sax.SAXException;
+
+import javafx.beans.InvalidationListener;
 import xml.XMLOpener;
 import xml.XMLParser;
 
@@ -8,11 +10,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
-public class Plan {
+public class Plan extends Observable {
 
     /*--- Attributes ---*/
 
@@ -136,6 +137,8 @@ public class Plan {
             File xmlFile = xmlOpener.open(false);
             if(xmlFile != null){
                 XMLParser.chargerPlan(this, xmlFile);
+                setChanged();
+                notifyObservers(this);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,6 +157,5 @@ public class Plan {
             e.printStackTrace();
         }
     }
-
 
 }
