@@ -84,7 +84,7 @@ public class Tournee {
 	}
 
 	/**
-	 * Permet de calculer la tourn�e
+	 * Permet de calculer la tournée
 	 * 
 	 * @param p
 	 *            le plan contenant l'ensemble des intersections et les m�thodes

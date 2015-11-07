@@ -1,10 +1,18 @@
 package modele;
 
+import org.xml.sax.SAXException;
+import xml.XMLOpener;
+import xml.XMLParser;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
 
-public class Plan {
+public class Plan extends Observable {
 
     /*--- Attributes ---*/
 
@@ -13,6 +21,8 @@ public class Plan {
     private List<Intersection> intersections;
     private List<Troncon> troncons;
     private Intersection entrepot;
+
+    private Tournee tournee;
 
     /*--- Constructor ---*/
 
@@ -42,6 +52,8 @@ public class Plan {
 
     public void setHauteur(int hauteur) {
         this.hauteur = hauteur;
+        setChanged();
+        notifyObservers();
     }
 
     public int getLargeur() {
@@ -105,11 +117,11 @@ public class Plan {
     }
 
     /**
-     * Utilise le moteur Dijkstra pour renvoyer le plus court chemin entre deux Intersections donn�es
+     * Utilise le moteur Dijkstra pour renvoyer le plus court chemin entre deux Intersections données
      *
-     * @param depart  L'intersection de d�part
-     * @param arrivee L'intersection d'arriv�e
-     * @return Une liste de tron�ons (Un chemin)
+     * @param depart  L'intersection de départ
+     * @param arrivee L'intersection d'arrivée
+     * @return Une liste de tronçons (Un chemin)
      */
     public List<Troncon> plusCourtChemin(Intersection depart, Intersection arrivee) {
         List<Troncon> troncons = new ArrayList<Troncon>();
@@ -123,4 +135,36 @@ public class Plan {
         }
         return troncons;
     }
+
+    public void chargerPlan() {
+        XMLOpener xmlOpener = XMLOpener.getInstance();
+
+        try {
+            File xmlFile = xmlOpener.open(false);
+            if(xmlFile != null){
+                XMLParser.chargerPlan(this, xmlFile);
+                setChanged();
+                notifyObservers();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void chargerLivraisons() {
+        XMLOpener xmlOpener = XMLOpener.getInstance();
+
+        try {
+            File xmlFile = xmlOpener.open(false);
+            if(xmlFile != null){
+                //XMLParser.chargerLivraisons(this, xmlFile);
+                setChanged();
+                notifyObservers();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
