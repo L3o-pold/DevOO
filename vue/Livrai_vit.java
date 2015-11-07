@@ -12,6 +12,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import modele.Plan;
+import xml.XMLOpener;
+import xml.XMLParser;
+
 import java.awt.FlowLayout;
 import java.awt.Button;
 import java.awt.Choice;
@@ -25,6 +33,9 @@ import java.awt.Canvas;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.AbstractListModel;
 
 public class Livrai_vit {
@@ -33,6 +44,7 @@ public class Livrai_vit {
 	
 	private JLabel lblInstruction;
 	
+	private Plan plan;
 	
 	
 	
@@ -63,6 +75,23 @@ public class Livrai_vit {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		this.plan = new Plan();
+		XMLOpener x = new XMLOpener();
+		File f = x.open(false);
+		try {
+			XMLParser.chargerPlan(this.plan, f);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SAXException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ParserConfigurationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		mainFrame = new JFrame();
 		mainFrame.setTitle("Livrai'vit");
 		mainFrame.setResizable(false);
@@ -81,7 +110,7 @@ public class Livrai_vit {
 		btnSupression.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("Supression Cliqué");
+				System.out.println("Supression Cliquï¿½");
 			}
 		});
 		btnSupression.setIcon(new ImageIcon(Livrai_vit.class.getResource("/javax/swing/plaf/metal/icons/ocean/paletteClose-pressed.gif")));
@@ -190,7 +219,8 @@ public class Livrai_vit {
 		mntmChargerPlan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Charged plan");
-				lblInstruction.setText("plan chargé");
+				lblInstruction.setText("aaa");
+				
 			}
 		});
 		
@@ -245,8 +275,7 @@ public class Livrai_vit {
 		JPanel panelPlan = new JPanel();
 		panel_1.add(panelPlan, BorderLayout.CENTER);
 		panelPlan.setLayout(null);
-		
-		Canvas canvas = new Canvas();
+		PlanCanvas canvas = new PlanCanvas(this.plan);
 		canvas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -254,6 +283,8 @@ public class Livrai_vit {
 		});
 		canvas.setBackground(new Color(255, 255, 255));
 		canvas.setBounds(10, 10, 950, 500);
+
 		panelPlan.add(canvas);
+		
 	}
 }

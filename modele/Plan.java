@@ -1,7 +1,6 @@
 package modele;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Plan {
@@ -89,6 +88,14 @@ public class Plan {
 
     public void addIntersection(int id, int x, int y) {
         this.intersections.add(new Intersection(id, x, y));
+        if( y > this.hauteur)
+        {
+        	this.hauteur = y;
+        }
+        if( x > this.largeur )
+        {
+        	this.largeur = x;
+        }
     }
 
     public void addTroncon(double duree, int idDepart, int idArrive) {
