@@ -38,10 +38,11 @@ import java.io.IOException;
 
 import javax.swing.AbstractListModel;
 
-public class Livrai_vit {
+public class Fenetre {
 
 	private JFrame mainFrame;
-	
+	private VueGraphique vueGraphique;
+	private VueTextuelle vueTextuelle;
 	private JLabel lblInstruction;
 	
 	private Plan plan;
@@ -55,7 +56,7 @@ public class Livrai_vit {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Livrai_vit window = new Livrai_vit();
+					Fenetre window = new Fenetre();
 					window.mainFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,7 +68,7 @@ public class Livrai_vit {
 	/**
 	 * Create the application.
 	 */
-	public Livrai_vit() {
+	public Fenetre() {
 		initialize();
 	}
 
@@ -77,21 +78,6 @@ public class Livrai_vit {
 	private void initialize() {
 		
 		this.plan = new Plan();
-		XMLOpener x = new XMLOpener();
-		File f = x.open(false);
-		try {
-			XMLParser.chargerPlan(this.plan, f);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		mainFrame = new JFrame();
 		mainFrame.setTitle("Livrai'vit");
 		mainFrame.setResizable(false);
@@ -113,7 +99,7 @@ public class Livrai_vit {
 				System.out.println("Supression Cliqu�");
 			}
 		});
-		btnSupression.setIcon(new ImageIcon(Livrai_vit.class.getResource("/javax/swing/plaf/metal/icons/ocean/paletteClose-pressed.gif")));
+		btnSupression.setIcon(new ImageIcon(Fenetre.class.getResource("/javax/swing/plaf/metal/icons/ocean/paletteClose-pressed.gif")));
 		panelEdition.add(btnSupression);
 		
 		JButton btnNouveau = new JButton("+");
@@ -134,7 +120,7 @@ public class Livrai_vit {
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		btnMonter.setIcon(new ImageIcon(Livrai_vit.class.getResource("/com/sun/javafx/scene/control/skin/caspian/dialog-fewer-details.png")));
+		btnMonter.setIcon(new ImageIcon(Fenetre.class.getResource("/com/sun/javafx/scene/control/skin/caspian/dialog-fewer-details.png")));
 		panelEdition.add(btnMonter);
 		
 		JButton btnDescendre = new JButton("");
@@ -143,19 +129,11 @@ public class Livrai_vit {
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		btnDescendre.setIcon(new ImageIcon(Livrai_vit.class.getResource("/com/sun/javafx/scene/control/skin/caspian/dialog-more-details.png")));
+		btnDescendre.setIcon(new ImageIcon(Fenetre.class.getResource("/com/sun/javafx/scene/control/skin/caspian/dialog-more-details.png")));
 		panelEdition.add(btnDescendre);
 		
 		JList listLivraison = new JList();
-		listLivraison.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Pierre", "Paul", "Jacques"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+
 		listLivraison.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -218,9 +196,8 @@ public class Livrai_vit {
 		JMenuItem mntmChargerPlan = new JMenuItem("Charger plan...");
 		mntmChargerPlan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Charged plan");
-				lblInstruction.setText("aaa");
-				
+				plan.chargerPlan();
+				lblInstruction.setText("Plan chargé");
 			}
 		});
 		
@@ -256,7 +233,7 @@ public class Livrai_vit {
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		btnUndo.setIcon(new ImageIcon(Livrai_vit.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
+		btnUndo.setIcon(new ImageIcon(Fenetre.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnUndo.setToolTipText("Annuler (Ctrl-Z)");
 		btnUndo.setHorizontalAlignment(SwingConstants.RIGHT);
 		menuBar.add(btnUndo);
@@ -267,7 +244,7 @@ public class Livrai_vit {
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		btnRedo.setIcon(new ImageIcon(Livrai_vit.class.getResource("/com/sun/javafx/scene/web/skin/Redo_16x16_JFX.png")));
+		btnRedo.setIcon(new ImageIcon(Fenetre.class.getResource("/com/sun/javafx/scene/web/skin/Redo_16x16_JFX.png")));
 		btnRedo.setToolTipText("R\u00E9p\u00E9ter (Ctrl-Y)");
 		btnRedo.setHorizontalAlignment(SwingConstants.RIGHT);
 		menuBar.add(btnRedo);
@@ -275,7 +252,7 @@ public class Livrai_vit {
 		JPanel panelPlan = new JPanel();
 		panel_1.add(panelPlan, BorderLayout.CENTER);
 		panelPlan.setLayout(null);
-		PlanCanvas canvas = new PlanCanvas(this.plan);
+		VueGraphique canvas = new VueGraphique(this.plan);
 		canvas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -283,7 +260,7 @@ public class Livrai_vit {
 		});
 		canvas.setBackground(new Color(255, 255, 255));
 		canvas.setBounds(10, 10, 950, 500);
-
+		this.plan.addObserver(canvas);
 		panelPlan.add(canvas);
 		
 	}
