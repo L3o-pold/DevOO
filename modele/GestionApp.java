@@ -6,7 +6,6 @@ import xml.XMLParser;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.List;
 
 public class GestionApp {
 
@@ -23,24 +22,12 @@ public class GestionApp {
 
     /*--- Public methods ---*/
 
+
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
         XMLOpener xmlOpener = new XMLOpener();
         Plan plan = new Plan();
+        Tournee tournee = new Tournee();
         XMLParser.chargerPlan(plan, xmlOpener.open(false));
-
-        List<Intersection> intersections = plan.getIntersections();
-        List<Troncon> troncons = plan.getTroncons();
-
-        for(Intersection intersection : intersections) {
-            System.out.println("Intersection #" + intersection.getId() + " (" + intersection.getX() + ", " + intersection.getY() + ")");
-        }
-
-        for(Troncon troncon : troncons) {
-            System.out.println("Troncon: " + troncon.getDepart().getId() + " -" + troncon.getDuree() + "-> " + troncon.getArrivee().getId());
-        }
-
-
-
     }
 
 }

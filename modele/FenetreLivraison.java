@@ -17,26 +17,27 @@ public class FenetreLivraison {
     public FenetreLivraison(Date heureDebut, Date heureFin) {
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
-        this.livraisons = new ArrayList<>();
+        livraisons = new ArrayList<Livraison>();
     }
 
     /*--- Accessors ---*/
+
+    public Date getHeureDebut() {
+        return heureDebut;
+    }
+
+    public Date getHeureFin() {
+        return heureFin;
+    }
 	
 	public List<Livraison> getLivraisons() {
 		return livraisons;
 	}
 
-	public Date getHeureDebut() {
-		return heureDebut;
-	}
-
-	public Date getHeureFin() {
-		return heureFin;
-	}
-
     /*--- Public methods ---*/
 
-	public void addLivraison(Livraison livraison) {
+	public void addLivraison(Livraison livraison)
+	{
 		livraisons.add(livraison);
 	}
 
