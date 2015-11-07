@@ -12,13 +12,16 @@ public class Tournee {
 
 	/*--- Attributes ---*/
 
+    private Intersection entrepot;
+    private List<FenetreLivraison> fenetres;
+
 	private List<Etape> etapes;
-	private List<FenetreLivraison> fenetres;
 	private double dureeTotale;
 
 	/*--- Constructor ---*/
 
-	public Tournee() {
+	public Tournee(Intersection entrepot) {
+        this.entrepot = entrepot;
 		this.etapes = new ArrayList<Etape>();
 		this.fenetres = new ArrayList<FenetreLivraison>();
         this.dureeTotale = 0.;
@@ -26,37 +29,25 @@ public class Tournee {
 
 	/*--- Accessors ---*/
 
+    public Intersection getEntrepot() {
+        return entrepot;
+    }
+
+    public void setEntrepot(Intersection entrepot) {
+        this.entrepot = entrepot;
+    }
+
+    public List<FenetreLivraison> getFenetres() {
+        return fenetres;
+    }
+
 	public List<Etape> getEtapes() {
 		return etapes;
 	}
 
-	public void setEtapes(List<Etape> etapes) {
-		this.etapes = etapes;
-	}
-
-	public List<FenetreLivraison> getFenetres() {
-		return fenetres;
-	}
-
-	public void addEtape(Etape e) {
-		this.etapes.add(e);
-	}
-
-	public void addFenetre(FenetreLivraison fl) {
-		this.fenetres.add(fl);
-	}
-
-	public void removeFenetre(FenetreLivraison fl) {
-		this.fenetres.remove(fl);
-	}
-	
-	public double getDureeTotale() {
-		return dureeTotale;
-	}
-
-	public void setDureeTotale(double dureeTotale) {
-		this.dureeTotale = dureeTotale;
-	}
+    public double getDureeTotale() {
+        return dureeTotale;
+    }
 
 	public Etape getEtape(int idDepart, int idArrivee)
 	{
@@ -83,8 +74,22 @@ public class Tournee {
 		return nbLivraisons;
 	}
 
+    /*--- Public methods ---*/
+
+    public void addFenetre(FenetreLivraison fl) {
+        this.fenetres.add(fl);
+    }
+
+    public void removeFenetre(FenetreLivraison fl) {
+        this.fenetres.remove(fl);
+    }
+
+    public void addEtape(Etape e) {
+        this.etapes.add(e);
+    }
+
 	/**
-	 * Permet de calculer la tourn�e
+	 * Permet de calculer la tournée
 	 * 
 	 * @param p
 	 *            le plan contenant l'ensemble des intersections et les m�thodes
@@ -92,7 +97,7 @@ public class Tournee {
 	 */
 	public void calculTournee(Plan p) {
 	
-		// On rajoute 1 car l'entrepot est un sommet suppl�mentaire du graphe
+		// On rajoute 1 car l'entrepot est un sommet supplémentaire du graphe
 		// (Et pas une livraison)
 		GrapheEtapes graphe = new GrapheEtapes(this.getNbLivraisons() + 1);
 
@@ -100,13 +105,10 @@ public class Tournee {
 		List<Troncon> plusCourtChemin = new ArrayList<Troncon>();
 		Etape etape;
 
-		// On récupère l'entrepot et les livraisons de la première fenêtre de
-		// livraison
-		Intersection entrepot = p.getEntrepot();
 
 		FenetreLivraison fenetreLivraison1;
 		FenetreLivraison fenetreLivraison2;
-		Iterator<FenetreLivraison> it = fenetres.iterator();
+		Iterator<FenetreLivraison> it = this.fenetres.iterator();
 		fenetreLivraison1 = it.next();
 		List<Livraison> livraisons1;
 		List<Livraison> livraisons2;
@@ -115,7 +117,7 @@ public class Tournee {
 		for (Livraison l : livraisons1) {
 			// On calcule tous les plus courts chemins entre l'entrepot et les
 			// livraison
-			plusCourtChemin = p.plusCourtChemin(entrepot, l.getIntersection());
+			plusCourtChemin = p.plusCourtChemin(this.entrepot, l.getIntersection());
 			etape = new Etape(0, l.getOrdre(), plusCourtChemin);
 			graphe.ajouterEtape(etape);
 			this.addEtape(etape);
@@ -162,7 +164,7 @@ public class Tournee {
 
 		// Retour à l'entrepot
 		for (Livraison l : livraisons1) {
-			plusCourtChemin = p.plusCourtChemin(l.getIntersection(), entrepot);
+			plusCourtChemin = p.plusCourtChemin(l.getIntersection(), this.entrepot);
 			etape = new Etape(l.getOrdre(), 0, plusCourtChemin);
 			graphe.ajouterEtape(etape);
 			this.addEtape(etape);
@@ -170,10 +172,10 @@ public class Tournee {
 		
 		// Appel a TSP
 
-		List<Etape> etapesFinales = new ArrayList<Etape>();
+		List<Etape> etapesFinales = new ArrayList<>();
 		TSP tsp = new TSP1();
 		tsp.chercheSolution(60000, graphe);
-		this.setDureeTotale(tsp.getCoutSolution());
+		this.dureeTotale = tsp.getCoutSolution();
 		for (int i = 0; i < graphe.getNbSommets()-1; i++)
 		{
 			etapesFinales.add(this.getEtape(tsp.getSolution(i), tsp.getSolution(i+1)));
@@ -181,7 +183,7 @@ public class Tournee {
 		
 		etapesFinales.add(this.getEtape(tsp.getSolution(graphe.getNbSommets()-1), 0));
 		
-		this.setEtapes(etapesFinales);
+		this.etapes = etapesFinales;
 		
 		//BOUCLE POUR AFFICHER LE CHEMIN COMPLET DE LA TOURNEE
 		for( int i = 0; i < this.etapes.size(); i++)

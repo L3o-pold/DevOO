@@ -1,17 +1,29 @@
 package modele;
 
+import org.xml.sax.SAXException;
+
+import javafx.beans.InvalidationListener;
+import xml.XMLOpener;
+import xml.XMLParser;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Plan {
+public class Plan extends Observable {
 
     /*--- Attributes ---*/
 
     private int hauteur;
     private int largeur;
+
     private List<Intersection> intersections;
     private List<Troncon> troncons;
-    private Intersection entrepot;
+   // private Intersection entrepot;
+    private Tournee tournee;
 
     /*--- Constructor ---*/
 
@@ -25,15 +37,6 @@ public class Plan {
 	
 
     /*--- Accessors ---*/
-
-    public Intersection getEntrepot() {
-        return entrepot;
-    }
-
-    public void setEntrepot(Intersection entrepot) {
-        this.entrepot = entrepot;
-    }
-
 
     public int getHauteur() {
         return hauteur;
@@ -80,30 +83,26 @@ public class Plan {
         return null;
     }
 
-    /*--- Public methods ---*/
+    public Tournee getTournee() {
+        return tournee;
+    }
+    
+   
 
-    public void addIntersection(Intersection intersection) {
+    public void setTournee(Tournee tournee) {
+		this.tournee = tournee;
+	}
+
+
+	public void addIntersection(Intersection intersection) {
         this.intersections.add(intersection);
-    }
-
-    public void addIntersection(int id, int x, int y) {
-        this.intersections.add(new Intersection(id, x, y));
-        if( y > this.hauteur)
+        if ( intersection.getX() > this.largeur )
         {
-        	this.hauteur = y;
+        	this.largeur = intersection.getX();
         }
-        if( x > this.largeur )
+        if( intersection.getY() > this.hauteur)
         {
-        	this.largeur = x;
-        }
-    }
-
-    public void addTroncon(double duree, int idDepart, int idArrive) {
-        Intersection depart = getIntersectionById(idDepart);
-        Intersection arrive = getIntersectionById(idArrive);
-
-        if (depart != null && arrive != null) {
-            this.troncons.add(new Troncon(duree, depart, arrive));
+        	this.hauteur = intersection.getY();
         }
     }
 
@@ -112,11 +111,11 @@ public class Plan {
     }
 
     /**
-     * Utilise le moteur Dijkstra pour renvoyer le plus court chemin entre deux Intersections donn�es
+     * Utilise le moteur Dijkstra pour renvoyer le plus court chemin entre deux Intersections données
      *
-     * @param depart  L'intersection de d�part
-     * @param arrivee L'intersection d'arriv�e
-     * @return Une liste de tron�ons (Un chemin)
+     * @param depart  L'intersection de départ
+     * @param arrivee L'intersection d'arrivée
+     * @return Une liste de tronçons (Un chemin)
      */
     public List<Troncon> plusCourtChemin(Intersection depart, Intersection arrivee) {
         List<Troncon> troncons = new ArrayList<Troncon>();
@@ -130,4 +129,33 @@ public class Plan {
         }
         return troncons;
     }
+
+    public void chargerPlan() {
+        XMLOpener xmlOpener = XMLOpener.getInstance();
+
+        try {
+            File xmlFile = xmlOpener.open(false);
+            if(xmlFile != null){
+                XMLParser.chargerPlan(this, xmlFile);
+                setChanged();
+                notifyObservers(this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void chargerLivraisons() {
+        XMLOpener xmlOpener = XMLOpener.getInstance();
+
+        try {
+            File xmlFile = xmlOpener.open(false);
+            if(xmlFile != null){
+                XMLParser.chargerLivraisons(this, xmlFile);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
