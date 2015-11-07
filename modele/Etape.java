@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,47 +8,49 @@ public class Etape {
 
     /*--- Attributes ---*/
 
-	private Date heurePassage;
-	private double duree;
+	private int idDepart;
+	private int idArrivee;
 	private List<Troncon> troncons;
 
     /*--- Constructor ---*/
 
-    public Etape(Date heurePassage, double duree, List<Troncon> troncons) {
-        this.heurePassage = heurePassage;
-        this.duree = duree;
+    public Etape(int idDep, int idArr, List<Troncon> troncons) {
+        this.idDepart = idDep;
+        this.idArrivee = idArr;
         this.troncons = troncons;
     }
 
     /*--- Accessors ---*/
-	
-	public Date getHeurePassage() {
-		return heurePassage;
-	}
-	public void setHeurePassage(Date heurePassage) {
-		this.heurePassage = heurePassage;
-	}
 
-	public double getDuree() {
-		return duree;
-	}
-	public void setDuree(double duree) {
-		this.duree = duree;
-	}
+    public int getIdDepart() {
+        return idDepart;
+    }
+
+    public int getIdArrivee() {
+        return idArrivee;
+    }
 
 	public List<Troncon> getTroncons() {
 		return troncons;
 	}
-	public void setTroncons(List<Troncon> troncons) {
-		this.troncons = troncons;
+
+    public double getDuree() {
+        Double duree = 0.;
+
+        for(Troncon troncon : this.troncons) {
+            duree += troncon.getDuree();
+        }
+
+        return duree;
+    }
+
+
+	/*--- Public methods ---*/
+
+	public void addTroncon(Troncon t) {
+		this.troncons.add(t);
 	}
 
-    /*--- Public methods ---*/
-	
-	public void addTroncon(Troncon t)
-	{
-		troncons.add(t);
-	}
 	public void removeTroncon(Troncon t) {
 		troncons.remove(t);
 	}
