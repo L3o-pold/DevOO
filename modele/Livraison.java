@@ -5,13 +5,13 @@ public class Livraison {
 	/*--- Attributes ---*/
 
 	private int ordre;
-	private Intersection intersectionLivraison;
+	private Intersection intersection;
 	
 	/*--- Constructor ---*/
 
-    public Livraison(int o, Intersection intersectionLivraison) {
+    public Livraison(int o, Intersection intersection) {
     	this.ordre = o;
-        this.intersectionLivraison = intersectionLivraison;
+        this.intersection = intersection;
     }
 
     /*--- Accessors ---*/
@@ -23,10 +23,7 @@ public class Livraison {
 		this.ordre = ordre;
 	}
 
-	public Intersection getIntersectionLivraison() {
-		return intersectionLivraison;
-	}
-	public void setIntersectionLivraison(Intersection intersectionLivraison) {
-		this.intersectionLivraison = intersectionLivraison;
+	public Intersection getIntersection() {
+		return intersection;
 	}
 }

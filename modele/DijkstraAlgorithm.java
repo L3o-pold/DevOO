@@ -104,7 +104,7 @@ public class DijkstraAlgorithm {
 		   * This method returns the path from the source to the selected target and
 		   * NULL if no path exists
 		   */
-		  public LinkedList<Intersection> getPath(Intersection target) {
+		  public List<Intersection> getPath(Intersection target) {
 		    LinkedList<Intersection> path = new LinkedList<Intersection>();
 		    Intersection step = target;
 		    // check if a path exists

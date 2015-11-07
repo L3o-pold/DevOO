@@ -18,14 +18,10 @@ public class Tournee {
 
 	/*--- Constructor ---*/
 
-	public Tournee(List<Etape> etapes, List<FenetreLivraison> fenetres) {
-		this.etapes = etapes;
-		this.fenetres = fenetres;
-	}
-
 	public Tournee() {
 		this.etapes = new ArrayList<Etape>();
 		this.fenetres = new ArrayList<FenetreLivraison>();
+        this.dureeTotale = 0.;
 	}
 
 	/*--- Accessors ---*/
@@ -42,10 +38,6 @@ public class Tournee {
 		return fenetres;
 	}
 
-	public void setFenetres(List<FenetreLivraison> fenetres) {
-		this.fenetres = fenetres;
-	}
-
 	public void addEtape(Etape e) {
 		this.etapes.add(e);
 	}
@@ -58,9 +50,6 @@ public class Tournee {
 		this.fenetres.remove(fl);
 	}
 	
-	
-
-	
 	public double getDureeTotale() {
 		return dureeTotale;
 	}
@@ -71,17 +60,14 @@ public class Tournee {
 
 	public Etape getEtape(int idDepart, int idArrivee)
 	{
-		
-		for(int i=0; i < this.etapes.size(); i++)
-		{
-			if (this.etapes.get(i).getIdDepart() == idDepart && this.etapes.get(i).getIdArrivee() == idArrivee)
-			{
-				return this.etapes.get(i);
-			}
-		}
-		
-		return null;
-	}
+        for(Etape etape : this.etapes) {
+            if(etape.getIdDepart() == idDepart && etape.getIdArrivee() == idArrivee) {
+                return etape;
+            }
+        }
+
+        return null;
+    }
 	
 	/**
 	 * Permet de compter le nombre de livraisons � faire, afin notamment
@@ -90,13 +76,11 @@ public class Tournee {
 	 * @return le nombre de livraisons
 	 */
 	public int getNbLivraisons() {
-		int cpt = 0;
+		int nbLivraisons = 0;
 		for (FenetreLivraison fl : this.fenetres) {
-			for (Livraison l : fl.getLivraisons()) {
-				cpt++;
-			}
+            nbLivraisons += this.fenetres.size();
 		}
-		return cpt;
+		return nbLivraisons;
 	}
 
 	/**
@@ -114,24 +98,24 @@ public class Tournee {
 
 		// Instanciations
 		List<Troncon> plusCourtChemin = new ArrayList<Troncon>();
-		Etape etape = new Etape();
+		Etape etape;
 
-		// On r�cup�re l'entrepot et les livraisons de la premi�re fen�tre de
+		// On récupère l'entrepot et les livraisons de la première fenêtre de
 		// livraison
 		Intersection entrepot = p.getEntrepot();
 
-		FenetreLivraison fenetreLivraison1 = new FenetreLivraison();
-		FenetreLivraison fenetreLivraison2 = new FenetreLivraison();
+		FenetreLivraison fenetreLivraison1;
+		FenetreLivraison fenetreLivraison2;
 		Iterator<FenetreLivraison> it = fenetres.iterator();
 		fenetreLivraison1 = it.next();
-		List<Livraison> livraisons1 = new ArrayList<Livraison>();
-		List<Livraison> livraisons2 = new ArrayList<Livraison>();
+		List<Livraison> livraisons1;
+		List<Livraison> livraisons2;
 		livraisons1 = fenetreLivraison1.getLivraisons();
 
 		for (Livraison l : livraisons1) {
 			// On calcule tous les plus courts chemins entre l'entrepot et les
 			// livraison
-			plusCourtChemin = p.plusCourtChemin(entrepot, l.getIntersectionLivraison());
+			plusCourtChemin = p.plusCourtChemin(entrepot, l.getIntersection());
 			etape = new Etape(0, l.getOrdre(), plusCourtChemin);
 			graphe.ajouterEtape(etape);
 			this.addEtape(etape);
@@ -139,7 +123,7 @@ public class Tournee {
 				if (l != l2) {
 					// On calcule ici tous les plus courts chemins entre chaque
 					// livraison de la fenetre
-					plusCourtChemin = p.plusCourtChemin(l.getIntersectionLivraison(), l2.getIntersectionLivraison());
+					plusCourtChemin = p.plusCourtChemin(l.getIntersection(), l2.getIntersection());
 					etape = new Etape(l.getOrdre(), l2.getOrdre(), plusCourtChemin);
 					graphe.ajouterEtape(etape);
 					this.addEtape(etape);
@@ -147,24 +131,23 @@ public class Tournee {
 			}
 		}
 
-		// On passe ensuite aux autres fen�tres de livraisons
+		// On passe ensuite aux autres fenêtres de livraisons
 		while (it.hasNext()) {
 			fenetreLivraison2 = (FenetreLivraison) it.next();
 			livraisons2 = fenetreLivraison2.getLivraisons();
 			for (Livraison l : livraisons1) {
 				for (Livraison l2 : livraisons2) {
 					// Plus court chemin entre les livraisons de la fenetre
-					// pr�c�dente et celle en cours
-					plusCourtChemin = p.plusCourtChemin(l.getIntersectionLivraison(), l2.getIntersectionLivraison());
+					// précédente et celle en cours
+					plusCourtChemin = p.plusCourtChemin(l.getIntersection(), l2.getIntersection());
 					etape = new Etape(l.getOrdre(), l2.getOrdre(), plusCourtChemin);
 					graphe.ajouterEtape(etape);
 					this.addEtape(etape);
 					for (Livraison l3 : livraisons2) {
 						if (l2 != l3) {
-							// Plus court chemin entre les livraisons de la m�me
-							// fen�tre
-							plusCourtChemin = p.plusCourtChemin(l2.getIntersectionLivraison(),
-									l3.getIntersectionLivraison());
+							// Plus court chemin entre les livraisons de la même fenêtre
+							plusCourtChemin = p.plusCourtChemin(l2.getIntersection(),
+									l3.getIntersection());
 							etape = new Etape(l2.getOrdre(), l3.getOrdre(), plusCourtChemin);
 							graphe.ajouterEtape(etape);
 							this.addEtape(etape);
@@ -172,19 +155,20 @@ public class Tournee {
 					}
 				}
 			}
+
 			fenetreLivraison1 = fenetreLivraison2;
 			livraisons1 = livraisons2;
 		}
 
-		// Retour � l'entrepot
+		// Retour à l'entrepot
 		for (Livraison l : livraisons1) {
-			plusCourtChemin = p.plusCourtChemin(l.getIntersectionLivraison(), entrepot);
+			plusCourtChemin = p.plusCourtChemin(l.getIntersection(), entrepot);
 			etape = new Etape(l.getOrdre(), 0, plusCourtChemin);
 			graphe.ajouterEtape(etape);
 			this.addEtape(etape);
 		}
 		
-		//Appel a TSP
+		// Appel a TSP
 
 		List<Etape> etapesFinales = new ArrayList<Etape>();
 		TSP tsp = new TSP1();
@@ -200,7 +184,7 @@ public class Tournee {
 		this.setEtapes(etapesFinales);
 		
 		//BOUCLE POUR AFFICHER LE CHEMIN COMPLET DE LA TOURNEE
-		/*for( int i = 0; i < this.etapes.size(); i++)
+		for( int i = 0; i < this.etapes.size(); i++)
 		{
 			Etape e = this.etapes.get(i);
 			System.out.println("Etape " + i + " : ");
@@ -210,7 +194,7 @@ public class Tournee {
 				Troncon t = troncons.get(j);
 				System.out.println( t.getDepart().getId() + " -> " + t.getArrivee().getId() );
 			}
-		}*/
+		}
 		
 	}
 }

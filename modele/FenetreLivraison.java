@@ -19,44 +19,29 @@ public class FenetreLivraison {
         this.heureFin = heureFin;
         livraisons = new ArrayList<Livraison>();
     }
-    
-    public FenetreLivraison() {
-        this.heureDebut = new Date();
-        this.heureFin = new Date();
-        livraisons = new ArrayList<Livraison>();
-    }
 
     /*--- Accessors ---*/
+
+    public Date getHeureDebut() {
+        return heureDebut;
+    }
+
+    public Date getHeureFin() {
+        return heureFin;
+    }
 	
 	public List<Livraison> getLivraisons() {
 		return livraisons;
 	}
-	public void setLivraisons(List<Livraison> livraisons) {
-		this.livraisons = livraisons;
-	}
-
-	public Date getHeureDebut() {
-		return heureDebut;
-	}
-	public void setHeureDebut(Date heureDebut) {
-		this.heureDebut = heureDebut;
-	}
-
-	public Date getHeureFin() {
-		return heureFin;
-	}
-	public void setHeureFin(Date heureFin) {
-		this.heureFin = heureFin;
-	}
 
     /*--- Public methods ---*/
 
-	public void addLivraison(Livraison l)
+	public void addLivraison(Livraison livraison)
 	{
-		livraisons.add(l);
+		livraisons.add(livraison);
 	}
-	public void removeLivraison(Livraison l)
-	{
-		livraisons.remove(l);
+
+	public void removeLivraison(Livraison livraison) {
+		livraisons.remove(livraison);
 	}
 }
