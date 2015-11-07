@@ -12,15 +12,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
-public class Plan extends Observable {
+public class Plan {
 
     /*--- Attributes ---*/
 
     private int hauteur;
     private int largeur;
+
     private List<Intersection> intersections;
     private List<Troncon> troncons;
-    private Intersection entrepot;
+    // private Intersection entrepot; WARNING CAN CAUSE BUG
 
     private Tournee tournee;
 
@@ -37,23 +38,12 @@ public class Plan extends Observable {
 
     /*--- Accessors ---*/
 
-    public Intersection getEntrepot() {
-        return entrepot;
-    }
-
-    public void setEntrepot(Intersection entrepot) {
-        this.entrepot = entrepot;
-    }
-
-
     public int getHauteur() {
         return hauteur;
     }
 
     public void setHauteur(int hauteur) {
         this.hauteur = hauteur;
-        setChanged();
-        notifyObservers();
     }
 
     public int getLargeur() {
@@ -93,23 +83,18 @@ public class Plan extends Observable {
         return null;
     }
 
+    public Tournee getTournee() {
+        return tournee;
+    }
+
+    public void setTournee(Tournee tournee) {
+        this.tournee = tournee;
+    }
+
     /*--- Public methods ---*/
 
     public void addIntersection(Intersection intersection) {
         this.intersections.add(intersection);
-    }
-
-    public void addIntersection(int id, int x, int y) {
-        this.intersections.add(new Intersection(id, x, y));
-    }
-
-    public void addTroncon(double duree, int idDepart, int idArrive) {
-        Intersection depart = getIntersectionById(idDepart);
-        Intersection arrive = getIntersectionById(idArrive);
-
-        if (depart != null && arrive != null) {
-            this.troncons.add(new Troncon(duree, depart, arrive));
-        }
     }
 
     public void addTroncon(Troncon troncon) {
@@ -143,8 +128,6 @@ public class Plan extends Observable {
             File xmlFile = xmlOpener.open(false);
             if(xmlFile != null){
                 XMLParser.chargerPlan(this, xmlFile);
-                setChanged();
-                notifyObservers();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,9 +140,7 @@ public class Plan extends Observable {
         try {
             File xmlFile = xmlOpener.open(false);
             if(xmlFile != null){
-                //XMLParser.chargerLivraisons(this, xmlFile);
-                setChanged();
-                notifyObservers();
+                XMLParser.chargerLivraisons(this, xmlFile);
             }
         } catch (Exception e) {
             e.printStackTrace();

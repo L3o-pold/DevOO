@@ -21,7 +21,9 @@ public class XMLOpener extends FileFilter {
         JFileChooser jFileChooserXML = new JFileChooser();
         jFileChooserXML.setFileFilter(this);
         jFileChooserXML.showOpenDialog(null);
-        return jFileChooserXML.getSelectedFile();
+        File xmlFile = jFileChooserXML.getSelectedFile();
+        if(readOnly) xmlFile.setReadOnly();
+        return xmlFile;
     }
 
     @Override
