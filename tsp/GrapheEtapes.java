@@ -20,19 +20,21 @@ public class GrapheEtapes implements Graphe{
 	
 	@Override
 	public int getNbSommets() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return this.nbSommets;
 	}
 
 	@Override
 	public int getCout(int i, int j) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.cout[i][j];
 	}
 
 	@Override
 	public boolean estArc(int i, int j) {
-		// TODO Auto-generated method stub
+		if( this.cout[i][j] > 0)
+		{
+			return true;
+		}
 		return false;
 	}
 

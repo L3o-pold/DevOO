@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import tsp.GrapheEtapes;
+import tsp.TSP;
+import tsp.TSP1;
 
 public class Tournee {
 
@@ -46,6 +48,16 @@ public class Tournee {
     	this.etapes.add(e);
     }
     
+    public void addFenetre(FenetreLivraison fl)
+    {
+    	this.fenetres.add(fl);
+    }
+    
+    public void removeFenetre(FenetreLivraison fl)
+    {
+    	this.fenetres.remove(fl);
+    }
+    
     /**
      * Permet de compter le nombre de livraisons à faire, afin notamment d'instancier le graphe  
      * @return le nombre de livraisons
@@ -53,7 +65,7 @@ public class Tournee {
     public int getNbLivraisons()
     {
     	int cpt=0;
-    	for(FenetreLivraison fl : fenetres)
+    	for(FenetreLivraison fl : this.fenetres)
     	{
     		for(Livraison l : fl.getLivraisons())
     		{
@@ -68,6 +80,7 @@ public class Tournee {
      */
     public void calculTournee(Plan p)
     {
+    	//System.out.println(this.getNbLivraisons());
     	//On rajoute 1 car l'entrepot est un sommet supplémentaire du graphe (Et pas une livraison)
     	GrapheEtapes graphe= new GrapheEtapes(this.getNbLivraisons() + 1);
     	
@@ -82,7 +95,7 @@ public class Tournee {
     	FenetreLivraison fenetreLivraison1 = new FenetreLivraison();
     	FenetreLivraison fenetreLivraison2 = new FenetreLivraison();
     	Iterator<FenetreLivraison> it = fenetres.iterator();
-    	fenetreLivraison1 = (FenetreLivraison)it.next();
+    	fenetreLivraison1 = it.next();
     	List<Livraison> livraisons1 = new ArrayList<Livraison>();
     	List<Livraison> livraisons2 = new ArrayList<Livraison>();
     	livraisons1 = fenetreLivraison1.getLivraisons();
@@ -148,7 +161,27 @@ public class Tournee {
     		etapes.add(etape);
     	}
     	
+    	int cpt=0;
+    	
+    	for(Etape e : etapes)
+    	{
+    		cpt++;
+    		System.out.println(e.getDuree());
+    	}
+    	
     	//TODO : ENVOYER GRAPHE AU TSP, FAIRE LA TOURNEE (PRENDRE LES BONNES ETAPES ET LES ORDONNER)
+    	/*TSP tsp = new TSP1();
+		for (int nbSommets = 8; nbSommets <= 16; nbSommets += 2){
+			System.out.println("Graphes de "+nbSommets+" sommets :");
+			long tempsDebut = System.currentTimeMillis();
+			tsp.chercheSolution(60000, graphe);
+			System.out.print("Solution de longueur "+tsp.getCoutSolution()+" trouvee en "
+					+(System.currentTimeMillis() - tempsDebut)+"ms : ");
+			for (int i=0; i<nbSommets; i++)
+				System.out.print(tsp.getSolution(i)+" ");
+			System.out.println();
+		}*/
+    	
     	
     }
 }
