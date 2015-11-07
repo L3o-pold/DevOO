@@ -104,20 +104,20 @@ public class Plan {
         this.troncons.add(troncon);
     }
     /**
-     *  Utilise le moteur Dijkstra pour renvoyer le plus court chemin entre deux Intersections données
-     * @param depart L'intersection de départ
-     * @param arrivee L'intersection d'arrivée
-     * @return Une liste de tronçons (Un chemin)
+     *  Utilise le moteur Dijkstra pour renvoyer le plus court chemin entre deux Intersections donnï¿½es
+     * @param depart L'intersection de dï¿½part
+     * @param arrivee L'intersection d'arrivï¿½e
+     * @return Une liste de tronï¿½ons (Un chemin)
      */
     public List<Troncon> plusCourtChemin(Intersection depart, Intersection arrivee)
     {
     	List<Troncon> troncons = new ArrayList<Troncon>();
     	DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(this);
     	dijkstra.execute(depart);
-    	//On récupère la liste d'intersections renvoyées par le moteur Dijkstra
+    	//On rï¿½cupï¿½re la liste d'intersections renvoyï¿½es par le moteur Dijkstra
     	LinkedList<Intersection> chemin = dijkstra.getPath(arrivee);
     	Troncon t = new Troncon();
-    	//On récupère les tronçons correspondant à la liste d'intersection
+    	//On rï¿½cupï¿½re les tronï¿½ons correspondant ï¿½ la liste d'intersection
     	for(int i = 0; i < chemin.size()-1 ; i++)
     	{
     			t = this.getTronconByIntersections(chemin.get(i), chemin.get(i+1));
@@ -125,4 +125,3 @@ public class Plan {
     	}
     	return troncons;
     }
-}

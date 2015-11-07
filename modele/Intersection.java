@@ -1,8 +1,5 @@
 package modele;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Intersection {
 
     /*--- Attributes ---*/
@@ -41,5 +38,4 @@ public class Intersection {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
 }

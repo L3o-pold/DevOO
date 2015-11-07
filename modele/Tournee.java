@@ -84,7 +84,7 @@ public class Tournee {
 	}
 	
 	/**
-	 * Permet de compter le nombre de livraisons à faire, afin notamment
+	 * Permet de compter le nombre de livraisons ï¿½ faire, afin notamment
 	 * d'instancier le graphe
 	 * 
 	 * @return le nombre de livraisons
@@ -100,15 +100,15 @@ public class Tournee {
 	}
 
 	/**
-	 * Permet de calculer la tournée
+	 * Permet de calculer la tournï¿½e
 	 * 
 	 * @param p
-	 *            le plan contenant l'ensemble des intersections et les méthodes
+	 *            le plan contenant l'ensemble des intersections et les mï¿½thodes
 	 *            de calcul de chemin le plus court
 	 */
 	public void calculTournee(Plan p) {
 	
-		// On rajoute 1 car l'entrepot est un sommet supplémentaire du graphe
+		// On rajoute 1 car l'entrepot est un sommet supplï¿½mentaire du graphe
 		// (Et pas une livraison)
 		GrapheEtapes graphe = new GrapheEtapes(this.getNbLivraisons() + 1);
 
@@ -116,7 +116,7 @@ public class Tournee {
 		List<Troncon> plusCourtChemin = new ArrayList<Troncon>();
 		Etape etape = new Etape();
 
-		// On récupère l'entrepot et les livraisons de la première fenêtre de
+		// On rï¿½cupï¿½re l'entrepot et les livraisons de la premiï¿½re fenï¿½tre de
 		// livraison
 		Intersection entrepot = p.getEntrepot();
 
@@ -147,22 +147,22 @@ public class Tournee {
 			}
 		}
 
-		// On passe ensuite aux autres fenêtres de livraisons
+		// On passe ensuite aux autres fenï¿½tres de livraisons
 		while (it.hasNext()) {
 			fenetreLivraison2 = (FenetreLivraison) it.next();
 			livraisons2 = fenetreLivraison2.getLivraisons();
 			for (Livraison l : livraisons1) {
 				for (Livraison l2 : livraisons2) {
 					// Plus court chemin entre les livraisons de la fenetre
-					// précédente et celle en cours
+					// prï¿½cï¿½dente et celle en cours
 					plusCourtChemin = p.plusCourtChemin(l.getIntersectionLivraison(), l2.getIntersectionLivraison());
 					etape = new Etape(l.getOrdre(), l2.getOrdre(), plusCourtChemin);
 					graphe.ajouterEtape(etape);
 					this.addEtape(etape);
 					for (Livraison l3 : livraisons2) {
 						if (l2 != l3) {
-							// Plus court chemin entre les livraisons de la même
-							// fenêtre
+							// Plus court chemin entre les livraisons de la mï¿½me
+							// fenï¿½tre
 							plusCourtChemin = p.plusCourtChemin(l2.getIntersectionLivraison(),
 									l3.getIntersectionLivraison());
 							etape = new Etape(l2.getOrdre(), l3.getOrdre(), plusCourtChemin);
@@ -176,7 +176,7 @@ public class Tournee {
 			livraisons1 = livraisons2;
 		}
 
-		// Retour à l'entrepot
+		// Retour ï¿½ l'entrepot
 		for (Livraison l : livraisons1) {
 			plusCourtChemin = p.plusCourtChemin(l.getIntersectionLivraison(), entrepot);
 			etape = new Etape(l.getOrdre(), 0, plusCourtChemin);
