@@ -18,10 +18,13 @@ public class Plan {
 	public Plan() {
 		this.hauteur = 0;
 		this.largeur = 0;
-		this.intersections = new ArrayList<Intersection>(); // Maybe another type of list
+        // Maybe another type of list
+		this.intersections = new ArrayList<>();
+		this.troncons = new ArrayList<>();
 	}
 
     /*--- Accessors ---*/
+	
 
 	public int getHauteur() {
 		return hauteur;
