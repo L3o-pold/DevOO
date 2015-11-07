@@ -19,10 +19,12 @@ public class Etape {
         this.idDepart = idDep;
         this.idArrivee = idArr;
     	this.duree = 0;
-        for(Troncon t : troncons)
-        {
-        	this.addTroncon(t);
-        }
+    	this.troncons = new ArrayList<Troncon>();
+    	//On appelle la méthode addTroncon pour mettre à jour la durée
+    	for(int i = 0 ; i < troncons.size() ; i++)
+    	{
+    		this.addTroncon(troncons.get(i));
+    	}
     }
     
     public Etape() {
@@ -77,7 +79,7 @@ public class Etape {
 
 	public void addTroncon(Troncon t)
 	{
-		troncons.add(t);
+		this.troncons.add(t);
 		this.setDuree(this.getDuree() + t.getDuree());
 	}
 	public void removeTroncon(Troncon t) {

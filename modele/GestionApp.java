@@ -11,7 +11,7 @@ public class GestionApp {
     
 
 	public GestionApp() {
-		this.plan = new Plan(0,0);
+		this.plan = new Plan();
 		this.tournee = new Tournee();
     }
 
@@ -115,13 +115,14 @@ public class GestionApp {
     	h1.setHours(8); h1.setMinutes(0);
     	h2.setHours(9); h2.setMinutes(30);
     	FenetreLivraison fl1 = new FenetreLivraison(h1,h2);
-    	fl1.addLivraison(l1); fl1.addLivraison(l2); fl1.addLivraison(l3);
+    	fl1.addLivraison(l1); fl1.addLivraison(l2); ;
     	ga.getTournee().addFenetre(fl1);
     	
     	h1.setHours(9); h1.setMinutes(30);
     	h2.setHours(11); h2.setMinutes(0);
     	FenetreLivraison fl2 = new FenetreLivraison(h1,h2);
     	fl2.addLivraison(l4); fl2.addLivraison(l5); fl2.addLivraison(l6);
+    	fl2.addLivraison(l3);
     	ga.getTournee().addFenetre(fl2);
     	
     	h1.setHours(11); h1.setMinutes(0);

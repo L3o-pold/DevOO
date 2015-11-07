@@ -15,6 +15,10 @@ public class Troncon {
         this.depart = depart;
         this.arrivee = arrivee;
     }
+    
+    public Troncon() {
+    	
+    }
 
     /*--- Accessors ---*/
 

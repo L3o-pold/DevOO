@@ -16,9 +16,9 @@ public class Plan {
 
     /*--- Constructor ---*/
 
-	public Plan(int hauteur, int largeur) {
-		this.hauteur = hauteur;
-		this.largeur = largeur;
+	public Plan() {
+		this.hauteur = 0;
+		this.largeur = 0;
         // Maybe another type of list
 		this.intersections = new ArrayList<>();
 		this.troncons = new ArrayList<>();
@@ -67,6 +67,19 @@ public class Plan {
     public List<Troncon> getTroncons() {
         return this.troncons;
     }
+    
+    public Troncon getTronconByIntersections(Intersection depart, Intersection arrivee)
+    {
+    	List<Troncon> troncons = this.getTroncons();
+    	for(int i=0 ; i< troncons.size() ; i++)
+    	{
+    		if(troncons.get(i).getDepart() == depart && troncons.get(i).getArrivee() == arrivee)
+    		{
+    			return troncons.get(i);
+    		}
+    	}
+    	return null;
+    }
 
     /*--- Public methods ---*/
 
@@ -90,23 +103,26 @@ public class Plan {
     public void addTroncon(Troncon troncon) {
         this.troncons.add(troncon);
     }
-    
+    /**
+     *  Utilise le moteur Dijkstra pour renvoyer le plus court chemin entre deux Intersections données
+     * @param depart L'intersection de départ
+     * @param arrivee L'intersection d'arrivée
+     * @return Une liste de tronçons (Un chemin)
+     */
     public List<Troncon> plusCourtChemin(Intersection depart, Intersection arrivee)
     {
     	List<Troncon> troncons = new ArrayList<Troncon>();
     	DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(this);
     	dijkstra.execute(depart);
+    	//On récupère la liste d'intersections renvoyées par le moteur Dijkstra
     	LinkedList<Intersection> chemin = dijkstra.getPath(arrivee);
-    	System.out.println("Chemin entre intersection " + depart.getId() + " et intersection " + arrivee.getId());
-    	for(int i = 0; i < chemin.size() ; i++)
+    	Troncon t = new Troncon();
+    	//On récupère les tronçons correspondant à la liste d'intersection
+    	for(int i = 0; i < chemin.size()-1 ; i++)
     	{
-    		if(chemin.get(i+1) != null)
-    		{
-    			
-    		}
+    			t = this.getTronconByIntersections(chemin.get(i), chemin.get(i+1));
+    			troncons.add(t);
     	}
-    	
-    	
     	return troncons;
     }
 }
