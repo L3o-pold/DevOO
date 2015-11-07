@@ -16,10 +16,11 @@ public class Livraison {
 
     /*--- Accessors ---*/
 
+	public int getId() {
+		return this.id;
+	}
+
 	public Intersection getIntersectionLivraison() {
 		return intersectionLivraison;
-	}
-	public void setIntersectionLivraison(Intersection intersectionLivraison) {
-		this.intersectionLivraison = intersectionLivraison;
 	}
 }
