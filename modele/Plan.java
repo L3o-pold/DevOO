@@ -95,6 +95,14 @@ public class Plan {
 
     public void addIntersection(Intersection intersection) {
         this.intersections.add(intersection);
+        if ( intersection.getX() > this.largeur )
+        {
+        	this.largeur = intersection.getX();
+        }
+        if( intersection.getY() > this.hauteur)
+        {
+        	this.hauteur = intersection.getY();
+        }
     }
 
     public void addTroncon(Troncon troncon) {
