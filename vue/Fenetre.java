@@ -206,7 +206,8 @@ public class Fenetre {
 		JMenuItem mntmChargerLivraison = new JMenuItem("Charger livraison...");
 		mntmChargerLivraison.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Charged livraison");
+				plan.chargerLivraisons();
+				lblInstruction.setText("Livraisons chargées");
 			}
 		});
 		mnMenu.add(mntmChargerLivraison);
