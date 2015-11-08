@@ -2,8 +2,7 @@ package controleur;
 
 
 import controleur.commande.ListeDeCommandes;
-import controleur.etat.*;
-import modele.Plan;
+import modele.Livrak;
 
 public class Controleur {
 
@@ -24,25 +23,25 @@ public class Controleur {
 
     /*--- Attributes ---*/
 
-    private Plan plan;
+    private Livrak app;
     private ListeDeCommandes listeDeCommandes;
 
     /*--- Constructor ---*/
 
-    public Controleur(Plan plan) {
-        this.plan = plan;
-        listeDeCommandes = new ListeDeCommandes();
+    public Controleur(Livrak app) {
+        this.app = app;
+        this.listeDeCommandes = new ListeDeCommandes();
     }
 
 
     /*--- Public methods ---*/
 
     public void chargerPlan() {
-        etatCourant.chargerPlan();
+        etatCourant.chargerPlan(app);
     }
 
     public void chargerLivraisons() {
-        etatCourant.chargerLivraisons();
+        etatCourant.chargerLivraisons(app);
     }
 
     public void undo() {

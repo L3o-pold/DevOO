@@ -1,19 +1,10 @@
 package modele;
 
-import org.xml.sax.SAXException;
-
-//import javafx.beans.InvalidationListener;
-import xml.XMLOpener;
-import xml.XMLParser;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class Plan extends Observable {
+public class Plan {
 
     /*--- Attributes ---*/
 
@@ -24,7 +15,7 @@ public class Plan extends Observable {
     private List<Troncon> troncons;
     // private Intersection entrepot; WARNING CAN CAUSE BUG
 
-    private Tournee tournee;
+    //private Tournee tournee;
 
     /*--- Constructor ---*/
 
@@ -84,6 +75,7 @@ public class Plan extends Observable {
         return null;
     }
 
+    /*
     public Tournee getTournee() {
         return tournee;
     }
@@ -91,6 +83,7 @@ public class Plan extends Observable {
     public void setTournee(Tournee tournee) {
         this.tournee = tournee;
     }
+    */
 
     /*--- Public methods ---*/
 
@@ -129,35 +122,4 @@ public class Plan extends Observable {
         }
         return troncons;
     }
-
-    public void chargerPlan() {
-        XMLOpener xmlOpener = XMLOpener.getInstance();
-
-        try {
-            File xmlFile = xmlOpener.open(false);
-            if(xmlFile != null){
-                XMLParser.chargerPlan(this, xmlFile);
-                setChanged();
-                notifyObservers(this);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void chargerLivraisons() {
-        XMLOpener xmlOpener = XMLOpener.getInstance();
-
-        try {
-            File xmlFile = xmlOpener.open(false);
-            if(xmlFile != null){
-                XMLParser.chargerLivraisons(this, xmlFile);
-                setChanged();
-                notifyObservers();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

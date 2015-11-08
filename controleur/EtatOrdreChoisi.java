@@ -1,4 +1,4 @@
-package controleur.etat;
+package controleur;
 
 public class EtatOrdreChoisi extends EtatDefaut {
 

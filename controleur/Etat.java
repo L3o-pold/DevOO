@@ -1,10 +1,11 @@
-package controleur.etat;
+package controleur;
 
 import controleur.commande.ListeDeCommandes;
+import modele.Livrak;
 
 public interface Etat {
-    public void chargerPlan();
-    public void chargerLivraisons();
+    public void chargerPlan(Livrak app);
+    public void chargerLivraisons(Livrak app);
     public void undo(ListeDeCommandes listeDeCommandes);
     public void redo(ListeDeCommandes listeDeCommandes);
 }

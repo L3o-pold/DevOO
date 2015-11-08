@@ -1,6 +1,7 @@
-package controleur.etat;
+package controleur;
 
 import controleur.commande.ListeDeCommandes;
+import modele.Livrak;
 
 public class EtatDefaut implements Etat {
 
@@ -13,12 +14,13 @@ public class EtatDefaut implements Etat {
     /*--- Override methods ---*/
 
     @Override
-    public void chargerPlan() {
-
+    public void chargerPlan(Livrak app) {
+        app.chargerPlan();
+        Controleur.setEtatCourant(Controleur.etatPlanCharge);
     }
 
     @Override
-    public void chargerLivraisons() {
+    public void chargerLivraisons(Livrak app) {
 
     }
 

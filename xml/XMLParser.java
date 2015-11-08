@@ -20,7 +20,7 @@ public class XMLParser {
 
     }
 
-    public static void chargerPlan(Plan plan, File xmlFile) throws IOException, SAXException, ParserConfigurationException {
+    public static void chargerPlan(Livrak app, File xmlFile) throws IOException, SAXException, ParserConfigurationException {
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -38,8 +38,8 @@ public class XMLParser {
                 int x = Integer.parseInt(eIntersection.getAttribute("x"));
                 int y = Integer.parseInt(eIntersection.getAttribute("y"));
 
-                if (plan.getIntersectionById(id) == null) {
-                    plan.addIntersection(new Intersection(id, x, y));
+                if (app.getPlan().getIntersectionById(id) == null) {
+                    app.getPlan().addIntersection(new Intersection(id, x, y));
                 }
 
             }
@@ -66,11 +66,11 @@ public class XMLParser {
                         int idIntersectionDepart = Integer.parseInt(eIntersection.getAttribute("id"));
                         int idIntersectionArrive = Integer.parseInt(eTroncon.getAttribute("idNoeudDestination"));
 
-                        Intersection depart = plan.getIntersectionById(idIntersectionDepart);
-                        Intersection arrive = plan.getIntersectionById(idIntersectionArrive);
+                        Intersection depart = app.getPlan().getIntersectionById(idIntersectionDepart);
+                        Intersection arrive = app.getPlan().getIntersectionById(idIntersectionArrive);
 
                         if (depart != null && arrive != null) {
-                            plan.addTroncon(new Troncon(duree, depart, arrive));
+                            app.getPlan().addTroncon(new Troncon(duree, depart, arrive));
                         }
                     }
                 }
@@ -79,7 +79,7 @@ public class XMLParser {
 
     }
 
-    public static void chargerLivraisons(Plan plan, File xmlFile) throws ParserConfigurationException, IOException, SAXException {
+    public static void chargerLivraisons(Livrak app, File xmlFile) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(xmlFile);
@@ -89,13 +89,14 @@ public class XMLParser {
         Element eEntrepot = (Element) (doc.getElementsByTagName("Entrepot").item(0));
         int idEntrepot = Integer.parseInt(eEntrepot.getAttribute("adresse"));
 
-        Intersection entrepot = plan.getIntersectionById(idEntrepot);
+        Intersection entrepot = app.getPlan().getIntersectionById(idEntrepot);
 
         if(entrepot == null) {
             return;
         }
 
-        plan.setTournee(new Tournee(entrepot));
+        Tournee tournee = new Tournee(entrepot);
+        app.setTournee(tournee);
 
         NodeList plages = doc.getElementsByTagName("Plage");
 
@@ -117,7 +118,7 @@ public class XMLParser {
                         int idLivraison = Integer.parseInt(eLivraison.getAttribute("id"));
                         int idIntersection = Integer.parseInt(eLivraison.getAttribute("adresse"));
 
-                        Intersection intersectionLivraison = plan.getIntersectionById(idIntersection);
+                        Intersection intersectionLivraison = app.getPlan().getIntersectionById(idIntersection);
 
                         if(intersectionLivraison != null) {
                             fl.addLivraison(new Livraison(idLivraison, intersectionLivraison));
@@ -125,7 +126,7 @@ public class XMLParser {
                     }
                 }
 
-                plan.getTournee().addFenetre(fl);
+                tournee.addFenetre(fl);
             }
         }
 

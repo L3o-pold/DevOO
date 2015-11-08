@@ -1,4 +1,4 @@
-package controleur.etat;
+package controleur;
 
 public class EtatLivraisonsChargees extends EtatDefaut {
 
