@@ -1,4 +1,6 @@
-package controleur;
+package controleur.etat;
+
+import controleur.commande.ListeDeCommandes;
 
 public interface Etat {
 

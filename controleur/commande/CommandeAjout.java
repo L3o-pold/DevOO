@@ -1,13 +1,13 @@
-package controleur;
+package controleur.commande;
 
-public class CommandeChangerOrdre implements Commande {
+public class CommandeAjout implements Commande {
 
     /*--- Attributes ---*/
 
 
     /*--- Constructor ---*/
 
-    public CommandeChangerOrdre() {
+    public CommandeAjout() {
 
     }
 

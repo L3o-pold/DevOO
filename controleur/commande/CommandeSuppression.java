@@ -1,13 +1,13 @@
-package controleur;
+package controleur.commande;
 
-public class CommandeAjout implements Commande {
+public class CommandeSuppression implements Commande {
 
     /*--- Attributes ---*/
 
 
     /*--- Constructor ---*/
 
-    public CommandeAjout() {
+    public CommandeSuppression() {
 
     }
 

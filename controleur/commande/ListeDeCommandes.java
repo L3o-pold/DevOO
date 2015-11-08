@@ -1,4 +1,4 @@
-package controleur;
+package controleur.commande;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package controleur;
+package controleur.commande;
 
 public interface Commande {
     public void execute();
