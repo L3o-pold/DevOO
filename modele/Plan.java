@@ -152,6 +152,9 @@ public class Plan extends Observable {
             File xmlFile = xmlOpener.open(false);
             if(xmlFile != null){
                 XMLParser.chargerLivraisons(this, xmlFile);
+                this.tournee.calculTournee(this);
+                setChanged();
+                notifyObservers(this);
             }
         } catch (Exception e) {
             e.printStackTrace();
