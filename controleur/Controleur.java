@@ -10,17 +10,17 @@ public class Controleur {
     /*--- Constructor ---*/
 
     public Controleur() {
-
+        listeDeCommandes = new ListeDeCommandes();
     }
 
     /*--- Public methods ---*/
 
     public void Undo() {
-
+        listeDeCommandes.undo();
     }
 
     public void Redo() {
-
+        listeDeCommandes.redo();
     }
 
 }
