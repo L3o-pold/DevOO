@@ -81,7 +81,7 @@ public class Fenetre {
 		mainFrame = new JFrame();
 		mainFrame.setTitle("Livrai'vit");
 		mainFrame.setResizable(false);
-		mainFrame.setBounds(100, 100, 1185, 617);
+		mainFrame.setBounds(100, 100, 1400, 800);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panelLivraison = new JPanel();
@@ -260,7 +260,7 @@ public class Fenetre {
 			}
 		});
 		canvas.setBackground(new Color(255, 255, 255));
-		canvas.setBounds(10, 10, 950, 500);
+		canvas.setBounds(10, 10, 1150, 680);
 		this.plan.addObserver(canvas);
 		panelPlan.add(canvas);
 		

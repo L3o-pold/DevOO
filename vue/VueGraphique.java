@@ -97,11 +97,12 @@ public class VueGraphique extends Canvas implements Observer {
 		float red = 255;
 		float green = 255;
 		float blue = 0;
-		
 		float step = 255 / nbTroncons;
 		
 		for(Etape e : this.plan.getTournee().getEtapes() )
 		{
+			//g.setColor(Color.RED);
+			dessinerIntersection(g,e.getTroncons().get(0).getDepart());
 			for(Troncon t : e.getTroncons() )
 			{
 				double x1 = t.getDepart().getX()*this.widthRatio;
@@ -132,7 +133,7 @@ public class VueGraphique extends Canvas implements Observer {
 	public void drawArrowHead(Graphics2D g2d, Line2D.Double line) {
 		AffineTransform tx = new AffineTransform();
 		Polygon arrowHead = new Polygon();  
-		arrowHead.addPoint( 0,5);
+		arrowHead.addPoint( 0,0);
 		arrowHead.addPoint( -5, -5);
 		arrowHead.addPoint( 5,-5);
 	    tx.setToIdentity();
