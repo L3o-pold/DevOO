@@ -13,6 +13,16 @@ public class EtatDefaut implements Etat {
     /*--- Override methods ---*/
 
     @Override
+    public void chargerPlan() {
+
+    }
+
+    @Override
+    public void chargerLivraisons() {
+
+    }
+
+    @Override
     public void undo(ListeDeCommandes listeDeCommandes) {
         listeDeCommandes.undo();
     }
