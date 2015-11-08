@@ -16,41 +16,41 @@ public class Controleur {
     protected static final EtatAjouterLivraison etatAjouterLivraison = new EtatAjouterLivraison();
     protected static final EtatOrdreChoisi etatOrdreChoisi = new EtatOrdreChoisi();
 
+    protected static Etat etatCourant = etatInit;
+
+    protected static void setEtatCourant(Etat etat) {
+        etatCourant = etat;
+    }
+
     /*--- Attributes ---*/
 
     private Plan plan;
-    private Etat etatCourant;
     private ListeDeCommandes listeDeCommandes;
 
     /*--- Constructor ---*/
 
     public Controleur(Plan plan) {
         this.plan = plan;
-        this.etatCourant = new EtatInit();
         listeDeCommandes = new ListeDeCommandes();
     }
 
 
     /*--- Public methods ---*/
 
-    protected void setEtatCourant(Etat etat) {
-        this.etatCourant = etat;
-    }
-
     public void chargerPlan() {
-        this.etatCourant.chargerPlan();
+        etatCourant.chargerPlan();
     }
 
     public void chargerLivraisons() {
-        this.etatCourant.chargerLivraisons();
+        etatCourant.chargerLivraisons();
     }
 
     public void undo() {
-        this.etatCourant.undo(listeDeCommandes);
+        etatCourant.undo(this.listeDeCommandes);
     }
 
     public void redo() {
-        this.etatCourant.redo(listeDeCommandes);
+        etatCourant.redo(this.listeDeCommandes);
     }
 
 }
