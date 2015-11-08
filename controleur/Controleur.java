@@ -44,6 +44,10 @@ public class Controleur {
         etatCourant.chargerLivraisons(app);
     }
 
+    public void calculerTournee() {
+        etatCourant.calculerTournee(app);
+    }
+
     public void undo() {
         etatCourant.undo(this.listeDeCommandes);
     }

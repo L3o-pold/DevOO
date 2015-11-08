@@ -7,5 +7,4 @@ public class EtatAjouterLivraison extends EtatDefaut {
     public EtatAjouterLivraison() {
 
     }
-
 }

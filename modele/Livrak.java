@@ -69,21 +69,17 @@ public class Livrak extends Observable {
         }
     }
 
+    public void calculerTournee() {
+        tournee.calculTournee(plan);
+    }
+
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
         Livrak app = new Livrak();
         Controleur c = new Controleur(app);
 
         c.chargerPlan();
         c.chargerLivraisons();
-
-        FenetreLivraison fl = app.getTournee().getFenetres().get(0);
-        System.out.println(fl.getHeureDebut());
-        System.out.println(fl.getHeureFin());
-        System.out.println(fl.getLivraisons().size());
-
-        for(Livraison l : fl.getLivraisons()) {
-            System.out.println("#" + l.getId() + " " + l.getIntersection().getId());
-        }
+        c.calculerTournee();
     }
 
 }

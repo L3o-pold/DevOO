@@ -69,7 +69,7 @@ public class Tournee {
 	public int getNbLivraisons() {
 		int nbLivraisons = 0;
 		for (FenetreLivraison fl : this.fenetres) {
-            nbLivraisons += this.fenetres.size();
+            nbLivraisons += fl.getLivraisons().size();
 		}
 		return nbLivraisons;
 	}

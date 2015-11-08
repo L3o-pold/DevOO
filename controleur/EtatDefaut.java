@@ -25,6 +25,11 @@ public class EtatDefaut implements Etat {
     }
 
     @Override
+    public void calculerTournee(Livrak app) {
+
+    }
+
+    @Override
     public void undo(ListeDeCommandes listeDeCommandes) {
         listeDeCommandes.undo();
     }
