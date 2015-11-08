@@ -130,7 +130,12 @@ public class Plan extends Observable {
         return troncons;
     }
 
-    public void chargerPlan() {
+    /**
+     * Charge un fichier XML de plans
+     *
+     * @return boolean True si le fichier est valide
+     */
+    public boolean chargerPlan() {
         XMLOpener xmlOpener = XMLOpener.getInstance();
 
         try {
@@ -139,26 +144,42 @@ public class Plan extends Observable {
                 XMLParser.chargerPlan(this, xmlFile);
                 setChanged();
                 notifyObservers(this);
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
-    public void chargerLivraisons() {
+    /**
+     * Charge un fichier XML de livraisons
+     *
+     * @return boolean True si le fichier est valide
+     */
+    public boolean chargerLivraisons() {
         XMLOpener xmlOpener = XMLOpener.getInstance();
 
         try {
             File xmlFile = xmlOpener.open(false);
             if(xmlFile != null){
                 XMLParser.chargerLivraisons(this, xmlFile);
-                this.tournee.calculTournee(this);
-                setChanged();
-                notifyObservers(this);
+
+                if (this.tournee == null) {
+                    throw new IOException("Un fichier de plan est requis avant l'importation des livraisons");
+                } else {
+                    this.tournee.calculTournee(this);
+                    setChanged();
+                    notifyObservers(this);
+                }
+
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
 
+        return false;
+    }
 }

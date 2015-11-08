@@ -27,7 +27,12 @@ public class XMLParser {
         Document doc = dBuilder.parse(xmlFile);
 
         doc.getDocumentElement().normalize();
+
         NodeList intersections = doc.getElementsByTagName("Noeud");
+
+        if (intersections.getLength() < 1) {
+            throw new IOException("Fichier du plan invalide");
+        }
 
         for(int i = 0; i < intersections.getLength(); i++) {
             Node intersection = intersections.item(i);
@@ -85,8 +90,12 @@ public class XMLParser {
         Document doc = dBuilder.parse(xmlFile);
         doc.getDocumentElement().normalize();
 
-
         Element eEntrepot = (Element) (doc.getElementsByTagName("Entrepot").item(0));
+
+        if (eEntrepot.hasAttribute("adresse") == false) {
+            throw new IOException("Fichier de livraison invalide");
+        }
+
         int idEntrepot = Integer.parseInt(eEntrepot.getAttribute("adresse"));
 
         Intersection entrepot = plan.getIntersectionById(idEntrepot);

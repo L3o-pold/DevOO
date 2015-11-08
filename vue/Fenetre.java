@@ -46,9 +46,7 @@ public class Fenetre {
 	private JLabel lblInstruction;
 	
 	private Plan plan;
-	
-	
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -154,7 +152,7 @@ public class Fenetre {
 		panel_1.add(panelInstruction, BorderLayout.SOUTH);
 		panelInstruction.setLayout(new BorderLayout(0, 0));
 		
-		this.lblInstruction = new JLabel("New label");
+		this.lblInstruction = new JLabel("");
 		this.lblInstruction.setForeground(Color.WHITE);
 		panelInstruction.add(this.lblInstruction, BorderLayout.CENTER);
 		
@@ -194,22 +192,31 @@ public class Fenetre {
 		menuBar.add(mnMenu);
 		
 		JMenuItem mntmChargerPlan = new JMenuItem("Charger plan...");
-		mntmChargerPlan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plan.chargerPlan();
-				lblInstruction.setText("Plan chargé");
-			}
-		});
-		
-		mnMenu.add(mntmChargerPlan);
-		
-		JMenuItem mntmChargerLivraison = new JMenuItem("Charger livraison...");
+		final JMenuItem mntmChargerLivraison = new JMenuItem("Charger livraison...");
+
+		mntmChargerLivraison.setEnabled(false);
 		mntmChargerLivraison.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				plan.chargerLivraisons();
-				lblInstruction.setText("Livraisons chargées");
+				if (plan.chargerLivraisons()) {
+					lblInstruction.setText("Livraisons chargées");
+				} else {
+					lblInstruction.setText("Veuillez fournir un fichier de livraisons valide");
+				}
 			}
 		});
+
+		mntmChargerPlan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (plan.chargerPlan()) {
+					lblInstruction.setText("Plan chargé");
+					mntmChargerLivraison.setEnabled(true);
+				} else {
+					lblInstruction.setText("Veuillez fournir un fichier de plan valide");
+				}
+			}
+		});
+
+		mnMenu.add(mntmChargerPlan);
 		mnMenu.add(mntmChargerLivraison);
 		
 		JMenuItem mntmReset = new JMenuItem("Reset");
