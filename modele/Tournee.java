@@ -118,7 +118,7 @@ public class Tournee {
 			// On calcule tous les plus courts chemins entre l'entrepot et les
 			// livraison
 			plusCourtChemin = p.plusCourtChemin(this.entrepot, l.getIntersection());
-			etape = new Etape(0, l.getOrdre(), plusCourtChemin);
+			etape = new Etape(0, l.getNumero(), plusCourtChemin);
 			graphe.ajouterEtape(etape);
 			this.addEtape(etape);
 			for (Livraison l2 : livraisons1) {
@@ -126,7 +126,7 @@ public class Tournee {
 					// On calcule ici tous les plus courts chemins entre chaque
 					// livraison de la fenetre
 					plusCourtChemin = p.plusCourtChemin(l.getIntersection(), l2.getIntersection());
-					etape = new Etape(l.getOrdre(), l2.getOrdre(), plusCourtChemin);
+					etape = new Etape(l.getNumero(), l2.getNumero(), plusCourtChemin);
 					graphe.ajouterEtape(etape);
 					this.addEtape(etape);
 				}
@@ -142,7 +142,7 @@ public class Tournee {
 					// Plus court chemin entre les livraisons de la fenetre
 					// précédente et celle en cours
 					plusCourtChemin = p.plusCourtChemin(l.getIntersection(), l2.getIntersection());
-					etape = new Etape(l.getOrdre(), l2.getOrdre(), plusCourtChemin);
+					etape = new Etape(l.getNumero(), l2.getNumero(), plusCourtChemin);
 					graphe.ajouterEtape(etape);
 					this.addEtape(etape);
 					for (Livraison l3 : livraisons2) {
@@ -150,7 +150,7 @@ public class Tournee {
 							// Plus court chemin entre les livraisons de la même fenêtre
 							plusCourtChemin = p.plusCourtChemin(l2.getIntersection(),
 									l3.getIntersection());
-							etape = new Etape(l2.getOrdre(), l3.getOrdre(), plusCourtChemin);
+							etape = new Etape(l2.getNumero(), l3.getNumero(), plusCourtChemin);
 							graphe.ajouterEtape(etape);
 							this.addEtape(etape);
 						}
@@ -165,7 +165,7 @@ public class Tournee {
 		// Retour à l'entrepot
 		for (Livraison l : livraisons1) {
 			plusCourtChemin = p.plusCourtChemin(l.getIntersection(), this.entrepot);
-			etape = new Etape(l.getOrdre(), 0, plusCourtChemin);
+			etape = new Etape(l.getNumero(), 0, plusCourtChemin);
 			graphe.ajouterEtape(etape);
 			this.addEtape(etape);
 		}

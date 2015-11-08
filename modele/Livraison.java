@@ -2,18 +2,23 @@ package modele;
 
 public class Livraison {
 
+	/*-- Static ---*/
+
+	private static int nombreLivraisons = 1;
+
 	/*--- Attributes ---*/
 
 	private int id;
 	private Intersection intersection;
-	private int ordre;
+	private int numero;
 	
 	/*--- Constructor ---*/
 
     public Livraison(int id, Intersection intersection) {
     	this.id = id;
         this.intersection = intersection;
-		this.ordre = 0;
+		this.numero = Livraison.nombreLivraisons;
+		Livraison.nombreLivraisons++;
     }
 
     /*--- Accessors ---*/
@@ -22,11 +27,11 @@ public class Livraison {
         return id;
     }
 
-	public int getOrdre() {
-		return ordre;
+	public int getNumero() {
+		return numero;
 	}
-	public void setOrdre(int ordre) {
-		this.ordre = ordre;
+	public void setNumero(int numero) {
+		this.numero = numero;
 	}
 
 	public Intersection getIntersection() {

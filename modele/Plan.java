@@ -2,7 +2,7 @@ package modele;
 
 import org.xml.sax.SAXException;
 
-import javafx.beans.InvalidationListener;
+//import javafx.beans.InvalidationListener;
 import xml.XMLOpener;
 import xml.XMLParser;
 
@@ -152,6 +152,8 @@ public class Plan extends Observable {
             File xmlFile = xmlOpener.open(false);
             if(xmlFile != null){
                 XMLParser.chargerLivraisons(this, xmlFile);
+                setChanged();
+                notifyObservers();
             }
         } catch (Exception e) {
             e.printStackTrace();
