@@ -3,12 +3,14 @@ package modele;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 
 import tsp.GrapheEtapes;
 import tsp.TSP;
 import tsp.TSP1;
+import tsp.TSP2;
 
-public class Tournee {
+public class Tournee extends Observable{
 
 	/*--- Attributes ---*/
 
@@ -16,7 +18,6 @@ public class Tournee {
     private List<FenetreLivraison> fenetres;
 
 	private List<Etape> etapes;
-	private double dureeTotale;
 
 	/*--- Constructor ---*/
 
@@ -24,7 +25,6 @@ public class Tournee {
         this.entrepot = entrepot;
 		this.etapes = new ArrayList<Etape>();
 		this.fenetres = new ArrayList<FenetreLivraison>();
-        this.dureeTotale = 0.;
 	}
 
 	/*--- Accessors ---*/
@@ -46,7 +46,12 @@ public class Tournee {
 	}
 
     public double getDureeTotale() {
-        return dureeTotale;
+        double dureeTotale= 0.;
+    	for( Etape e : this.etapes)
+        {
+        	dureeTotale += e.getDuree();
+        }
+    	return dureeTotale;
     }
 
 	public Etape getEtape(int idDepart, int idArrivee)
@@ -69,7 +74,7 @@ public class Tournee {
 	public int getNbLivraisons() {
 		int nbLivraisons = 0;
 		for (FenetreLivraison fl : this.fenetres) {
-            nbLivraisons += this.fenetres.size();
+			nbLivraisons += fl.getLivraisons().size();
 		}
 		return nbLivraisons;
 	}
@@ -104,8 +109,6 @@ public class Tournee {
 		// Instanciations
 		List<Troncon> plusCourtChemin = new ArrayList<Troncon>();
 		Etape etape;
-
-
 		FenetreLivraison fenetreLivraison1;
 		FenetreLivraison fenetreLivraison2;
 		Iterator<FenetreLivraison> it = this.fenetres.iterator();
@@ -173,9 +176,9 @@ public class Tournee {
 		// Appel a TSP
 
 		List<Etape> etapesFinales = new ArrayList<>();
-		TSP tsp = new TSP1();
+		TSP tsp = new TSP2();
 		tsp.chercheSolution(60000, graphe);
-		this.dureeTotale = tsp.getCoutSolution();
+		
 		for (int i = 0; i < graphe.getNbSommets()-1; i++)
 		{
 			etapesFinales.add(this.getEtape(tsp.getSolution(i), tsp.getSolution(i+1)));
@@ -184,7 +187,7 @@ public class Tournee {
 		etapesFinales.add(this.getEtape(tsp.getSolution(graphe.getNbSommets()-1), 0));
 		
 		this.etapes = etapesFinales;
-		
+		/*
 		//BOUCLE POUR AFFICHER LE CHEMIN COMPLET DE LA TOURNEE
 		for( int i = 0; i < this.etapes.size(); i++)
 		{
@@ -196,7 +199,7 @@ public class Tournee {
 				Troncon t = troncons.get(j);
 				System.out.println( t.getDepart().getId() + " -> " + t.getArrivee().getId() );
 			}
-		}
+		}*/
 		
 	}
 }
