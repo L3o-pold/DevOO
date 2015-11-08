@@ -8,12 +8,14 @@ public class Livraison {
 	private Intersection intersection;
 	private int ordre;
 	
+	public static int nbLivraisons=1;
 	/*--- Constructor ---*/
 
     public Livraison(int id, Intersection intersection) {
     	this.id = id;
         this.intersection = intersection;
-		this.ordre = 0;
+		this.ordre = this.nbLivraisons;
+		this.nbLivraisons++;
     }
 
     /*--- Accessors ---*/
