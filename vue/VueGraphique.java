@@ -29,7 +29,7 @@ import modele.Troncon;
 
 public class VueGraphique extends Canvas implements Observer {
 
-	public static final int INTERSECTION_RADIUS = 15;
+	public static final int INTERSECTION_RADIUS = 8;
 	public static final int MARGIN_SECURITY = 10;
 	private float widthRatio;
 	private float heightRatio;
@@ -74,7 +74,7 @@ public class VueGraphique extends Canvas implements Observer {
 	public void dessinerIntersection(Graphics2D g, Intersection i) {
 		double x = i.getX()*this.widthRatio;
 		double y = i.getY()*this.heightRatio;
-		g.fill(new Ellipse2D.Double(x - VueGraphique.INTERSECTION_RADIUS/2, y - VueGraphique.INTERSECTION_RADIUS/2, VueGraphique.INTERSECTION_RADIUS, VueGraphique.INTERSECTION_RADIUS));
+		g.fill(new Ellipse2D.Double(x - VueGraphique.INTERSECTION_RADIUS, y - VueGraphique.INTERSECTION_RADIUS, VueGraphique.INTERSECTION_RADIUS*2, VueGraphique.INTERSECTION_RADIUS*2));
 	}
 
 	public void dessinerTroncon(Graphics2D g, Troncon t) {
@@ -115,7 +115,8 @@ public class VueGraphique extends Canvas implements Observer {
 								BasicStroke.JOIN_ROUND));
 				g.setColor(new Color(red/255,green/255,blue/255));
 				green -= step;
-				Line2D.Double line = new Line2D.Double(x1, y1, x2, y2);
+				//Line2D.Double line = new Line2D.Double(x1, y1, x2, y2);
+				Line2D.Double line = calculerLigne(x1, y1, x2, y2);
 				g.draw(line);
 				drawArrowHead(g, line);
 			}
@@ -127,7 +128,7 @@ public class VueGraphique extends Canvas implements Observer {
 		g.setColor(Color.RED);
 		double x = i.getX()*this.widthRatio;
 		double y = i.getY()*this.heightRatio;
-		g.fill(new Ellipse2D.Double(x - VueGraphique.INTERSECTION_RADIUS/2, y - VueGraphique.INTERSECTION_RADIUS/2, VueGraphique.INTERSECTION_RADIUS, VueGraphique.INTERSECTION_RADIUS));
+		g.fill(new Ellipse2D.Double(x - VueGraphique.INTERSECTION_RADIUS, y - VueGraphique.INTERSECTION_RADIUS, VueGraphique.INTERSECTION_RADIUS*2, VueGraphique.INTERSECTION_RADIUS*2));
 	}
 	
 	public void drawArrowHead(Graphics2D g2d, Line2D.Double line) {
@@ -140,13 +141,26 @@ public class VueGraphique extends Canvas implements Observer {
 	    double angle = Math.atan2(line.y2-line.y1, line.x2-line.x1);
 	    tx.translate(line.x2, line.y2);
 	    tx.rotate((angle-Math.PI/2d));  
-	    
 	    Graphics2D g = (Graphics2D) g2d.create();
 	    g.setTransform(tx);   
 	    g.fill(arrowHead);
 	    g.dispose();
 	}
 	
+	public Line2D.Double calculerLigne(Double x1, Double y1,Double x2,Double y2)
+	{
+		Double x;
+		Double y;
+		x = x2 - x1;
+		y = y2 - y1;
+		Double longueur = Math.sqrt(x*x + y*y);
+		x = x * (1/longueur);
+		y = y * (1/longueur);
+		x = x *  (longueur - VueGraphique.INTERSECTION_RADIUS);
+		y = y * (longueur - VueGraphique.INTERSECTION_RADIUS);
+		Line2D.Double line = new Line2D.Double(x2 - x, y2 - y, x1 + x, y1 + y);
+		return line;
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {
