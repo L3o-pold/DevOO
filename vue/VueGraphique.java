@@ -18,6 +18,7 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import modele.Etape;
 import modele.Intersection;
 import modele.Plan;
 import modele.Tournee;
@@ -51,10 +52,6 @@ public class VueGraphique extends Canvas implements Observer {
 			this.dessinerIntersection(g2, i);
 		}
 		
-		/*Intersection entrepot = this.plan.getEntrepot();
-		g.setColor(Color.PINK);
-		
-		this.dessinerIntersection(g, entrepot);*/
 		
 		g.setColor(Color.black);
 		
@@ -63,8 +60,17 @@ public class VueGraphique extends Canvas implements Observer {
 			dessinerTroncon(g2, t);
 		}
 		
-		
-		
+		if (this.plan.getTournee() != null)
+		{
+			dessinerEntrepot(g2, this.plan.getTournee().getEntrepot());
+			for(Etape e : this.plan.getTournee().getEtapes())
+			{
+				for( Troncon t : e.getTroncons())
+				{
+					dessinerTronconTournee(g2,t);
+				}
+			}
+		}
 		
 	}
 
@@ -83,6 +89,26 @@ public class VueGraphique extends Canvas implements Observer {
 		g.draw(new Line2D.Double(x1, y1, x2, y2));
 	}
 	
+	public void dessinerTronconTournee(Graphics2D g, Troncon t) {
+		double x1 = t.getDepart().getX()*this.widthRatio;
+		double y1 = t.getDepart().getY()*this.heightRatio;
+		double x2 = t.getArrivee().getX()*this.widthRatio;
+		double y2 = t.getArrivee().getY()*this.heightRatio;
+		g.setColor(Color.RED);
+		g.setStroke(new BasicStroke((2f),
+						BasicStroke.CAP_BUTT,
+						BasicStroke.JOIN_ROUND));
+		System.out.println("aa");
+		g.draw(new Line2D.Double(x1, y1, x2, y2));
+	}
+	
+	public void dessinerEntrepot(Graphics2D g, Intersection i) {
+		g.setColor(Color.RED);
+		double x = i.getX()*this.widthRatio;
+		double y = i.getY()*this.heightRatio;
+		g.fill(new Ellipse2D.Double(x - VueGraphique.INTERSECTION_RADIUS/2, y - VueGraphique.INTERSECTION_RADIUS/2, VueGraphique.INTERSECTION_RADIUS, VueGraphique.INTERSECTION_RADIUS));
+	}
+	
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -90,7 +116,6 @@ public class VueGraphique extends Canvas implements Observer {
 		if( o instanceof Plan)
 		{
 			this.plan = (Plan)o;
-			System.out.println("updated");
 			repaint();
 		}
 	}
